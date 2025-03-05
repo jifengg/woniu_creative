@@ -83,9 +83,9 @@ class _MaterialWidgetState extends State<MaterialWidget> {
       case MaterialTypes.image:
         return buildImage();
       case MaterialTypes.link:
-        return DemoWidget.webview;
+        return buildWebview();
       case MaterialTypes.video:
-        return DemoWidget.video;
+        return buildVideo();
       default:
         return Container();
     }
@@ -135,7 +135,7 @@ class _MaterialWidgetState extends State<MaterialWidget> {
 
   @override
   void dispose() {
-    super.dispose();
     _videoPlayerController?.dispose();
+    super.dispose();
   }
 }

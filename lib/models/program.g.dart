@@ -14,11 +14,13 @@ Program _$ProgramFromJson(Map<String, dynamic> json) => Program(
       (json['layers'] as List<dynamic>)
           .map((e) => Layer.fromJson(e as Map<String, dynamic>))
           .toList(),
+  priority: (json['priority'] as num?)?.toInt() ?? 1000,
 );
 
 Map<String, dynamic> _$ProgramToJson(Program instance) => <String, dynamic>{
   'id': instance.id,
   'program_name': instance.programName,
   'time_config': instance.timeConfig,
+  'priority': instance.priority,
   'layers': instance.layers,
 };

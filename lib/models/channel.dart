@@ -1,7 +1,5 @@
 // lib/models/channel.dart
 import 'package:json_annotation/json_annotation.dart';
-import 'device.dart';
-import 'play_policy.dart';
 import 'program.dart';
 
 part 'channel.g.dart';
@@ -16,21 +14,12 @@ class Channel {
   @JsonKey(name: 'channel_name')
   final String channelName;
 
-  /// 关联的设备信息
-  final Device device;
-
-  /// 默认播放策略
-  @JsonKey(name: 'default_play_policy')
-  final PlayPolicy defaultPlayPolicy;
-
   /// 包含的节目列表
   final List<Program> programs;
 
   Channel({
     required this.id,
     required this.channelName,
-    required this.device,
-    required this.defaultPlayPolicy,
     required this.programs,
   });
 

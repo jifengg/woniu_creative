@@ -19,6 +19,9 @@ class Program {
   @JsonKey(name: 'time_config')
   final TimeConfig timeConfig;
 
+  /// 节目的优先级，数值越大表示优先级越高
+  final int priority;
+
   /// 包含的展示层列表
   final List<Layer> layers;
 
@@ -27,8 +30,10 @@ class Program {
     required this.programName,
     required this.timeConfig,
     required this.layers,
+    this.priority = 1000,
   });
 
-  factory Program.fromJson(Map<String, dynamic> json) => _$ProgramFromJson(json);
+  factory Program.fromJson(Map<String, dynamic> json) =>
+      _$ProgramFromJson(json);
   Map<String, dynamic> toJson() => _$ProgramToJson(this);
 }

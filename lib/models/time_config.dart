@@ -1,21 +1,227 @@
-// lib/models/time_config.dart
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'schedule.dart';
+import 'package:woniu_creative/models/enums.dart';
+import 'package:woniu_creative/models/period.dart';
 
 part 'time_config.g.dart';
 
+const _$TimeConfigTypeEnumMap = {
+  TimeConfigType.daily: 1,
+  TimeConfigType.weekly: 2,
+  TimeConfigType.monthly: 3,
+  TimeConfigType.yearly: 4,
+  TimeConfigType.custom: 9,
+};
+
 /// 时间配置
-@JsonSerializable()
 class TimeConfig {
-  /// 时间类型（always/weekly/custom）
-  final String type;
+  /// 时间类型
+  final TimeConfigType type;
+
+  /// 有效日期范围，开始日期
+  final DateTime start;
+
+  /// 有效日期范围，结束日期
+  final DateTime end;
 
   /// 时段配置列表
-  final List<Schedule> schedule;
+  final List<Period> periods;
 
-  TimeConfig({required this.type, required this.schedule});
+  TimeConfig({
+    required this.type,
+    required this.periods,
+    required this.start,
+    required this.end,
+  });
 
-  factory TimeConfig.fromJson(Map<String, dynamic> json) =>
-      _$TimeConfigFromJson(json);
-  Map<String, dynamic> toJson() => _$TimeConfigToJson(this);
+  factory TimeConfig.fromJson(Map<String, dynamic> json) {
+    var type = $enumDecode(_$TimeConfigTypeEnumMap, json['type']);
+    switch (type) {
+      case TimeConfigType.daily:
+        return DailyTimeConfig.fromJson(json);
+      case TimeConfigType.weekly:
+        return WeeklyTimeConfig.fromJson(json);
+      case TimeConfigType.monthly:
+        return MonthlyTimeConfig.fromJson(json);
+      case TimeConfigType.yearly:
+        return YearlyTimeConfig.fromJson(json);
+      case TimeConfigType.custom:
+        return CustomTimeConfig.fromJson(json);
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> map;
+    switch (type) {
+      case TimeConfigType.daily:
+        map = (this as DailyTimeConfig).toJson();
+        break;
+      case TimeConfigType.weekly:
+        map = (this as WeeklyTimeConfig).toJson();
+        break;
+      case TimeConfigType.monthly:
+        map = (this as MonthlyTimeConfig).toJson();
+        break;
+      case TimeConfigType.yearly:
+        map = (this as YearlyTimeConfig).toJson();
+        break;
+      case TimeConfigType.custom:
+        map = (this as CustomTimeConfig).toJson();
+        break;
+    }
+    return map;
+  }
+
+  Map<String, dynamic> fixJson(Map<String, dynamic> map) {
+    map["type"] = _$TimeConfigTypeEnumMap[type];
+    return map;
+  }
+
+  /// 基础时间匹配逻辑
+  bool isTimeMatch(DateTime time) {
+    final nowSeconds = time.hour * 3600 + time.minute * 60 + time.second;
+    return periods.any(
+      (range) => nowSeconds >= range.start && nowSeconds <= range.end,
+    );
+  }
+}
+
+/// 每日配置
+@JsonSerializable()
+class DailyTimeConfig extends TimeConfig {
+  DailyTimeConfig({
+    required super.periods,
+    required super.start,
+    required super.end,
+  }) : super(type: TimeConfigType.daily);
+
+  factory DailyTimeConfig.fromJson(Map<String, dynamic> json) =>
+      _$DailyTimeConfigFromJson(json);
+  @override
+  Map<String, dynamic> toJson() => fixJson(_$DailyTimeConfigToJson(this));
+}
+
+/// 每周配置
+@JsonSerializable()
+class WeeklyTimeConfig extends TimeConfig {
+  final List<int> daysOfWeek;
+
+  WeeklyTimeConfig({
+    required this.daysOfWeek,
+    required super.periods,
+    required super.start,
+    required super.end,
+  }) : super(type: TimeConfigType.weekly);
+
+  factory WeeklyTimeConfig.fromJson(Map<String, dynamic> json) =>
+      _$WeeklyTimeConfigFromJson(json);
+  @override
+  Map<String, dynamic> toJson() => fixJson(_$WeeklyTimeConfigToJson(this));
+  @override
+  bool isTimeMatch(DateTime time) {
+    return daysOfWeek.contains(time.weekday) && super.isTimeMatch(time);
+  }
+}
+
+/// 每月配置
+@JsonSerializable()
+class MonthlyTimeConfig extends TimeConfig {
+  final List<int> daysOfMonth;
+
+  MonthlyTimeConfig({
+    required this.daysOfMonth,
+    required super.periods,
+    required super.start,
+    required super.end,
+  }) : super(type: TimeConfigType.monthly);
+
+  factory MonthlyTimeConfig.fromJson(Map<String, dynamic> json) =>
+      _$MonthlyTimeConfigFromJson(json);
+  @override
+  Map<String, dynamic> toJson() => fixJson(_$MonthlyTimeConfigToJson(this));
+
+  @override
+  bool isTimeMatch(DateTime time) {
+    return daysOfMonth.contains(time.day) && super.isTimeMatch(time);
+  }
+}
+
+@JsonSerializable()
+class YearlyTimeConfig extends TimeConfig {
+  final List<MonthDay> monthDays;
+
+  YearlyTimeConfig({
+    required this.monthDays,
+    required super.periods,
+    required super.start,
+    required super.end,
+  }) : super(type: TimeConfigType.yearly);
+
+  factory YearlyTimeConfig.fromJson(Map<String, dynamic> json) =>
+      _$YearlyTimeConfigFromJson(json);
+  @override
+  Map<String, dynamic> toJson() => fixJson(_$YearlyTimeConfigToJson(this));
+}
+
+/// 定义一个包含月日的类
+@JsonSerializable()
+class MonthDay {
+  final int month;
+  final int day;
+
+  MonthDay({required this.month, required this.day});
+
+  factory MonthDay.fromJson(Map<String, dynamic> json) =>
+      _$MonthDayFromJson(json);
+  Map<String, dynamic> toJson() => _$MonthDayToJson(this);
+}
+
+/// 自定义配置（使用具体日期时间对）
+@JsonSerializable()
+class CustomTimeConfig extends TimeConfig {
+  @JsonKey(name: 'date_ranges')
+  @DateTimeRangeJsonFormatter()
+  final List<DateTimeRange> dateRanges;
+
+  CustomTimeConfig({
+    required this.dateRanges,
+    required super.periods,
+    required super.start,
+    required super.end,
+  }) : super(type: TimeConfigType.custom);
+
+  factory CustomTimeConfig.fromJson(Map<String, dynamic> json) =>
+      _$CustomTimeConfigFromJson(json);
+  @override
+  Map<String, dynamic> toJson() => fixJson(_$CustomTimeConfigToJson(this));
+
+  @override
+  bool isTimeMatch(DateTime time) {
+    // 检查是否在日期范围内且满足时间要求
+    return dateRanges.any(
+          (range) => time.isAfter(range.start) && time.isBefore(range.end),
+        ) &&
+        super.isTimeMatch(time);
+  }
+}
+
+/// DateTimeRange 的json formatter，与Map相互转换
+class DateTimeRangeJsonFormatter extends JsonConverter<DateTimeRange, Map> {
+  const DateTimeRangeJsonFormatter();
+
+  @override
+  DateTimeRange fromJson(Map json) {
+    return DateTimeRange(
+      start: DateTime.parse(json['start'] as String),
+      end: DateTime.parse(json['end'] as String),
+    );
+  }
+
+  @override
+  Map toJson(DateTimeRange object) {
+    return {
+      'start': object.start.toIso8601String(),
+      'end': object.end.toIso8601String(),
+    };
+  }
 }

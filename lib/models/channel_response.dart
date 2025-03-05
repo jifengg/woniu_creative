@@ -1,6 +1,6 @@
 // lib/models/channel_response.dart
 import 'package:json_annotation/json_annotation.dart';
-import 'channel_data.dart';
+import 'package:woniu_creative/models/channel.dart';
 
 part 'channel_response.g.dart';
 
@@ -14,7 +14,7 @@ class ChannelResponse {
   final String message;
 
   /// 频道数据容器
-  final ChannelData data;
+  final Channel data;
 
   ChannelResponse({
     required this.code,

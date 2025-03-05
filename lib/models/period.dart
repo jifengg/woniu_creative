@@ -6,11 +6,11 @@ part 'period.g.dart';
 /// 具体时间段
 @JsonSerializable()
 class Period {
-  /// 开始时间（HH:mm）
-  final String start;
+  /// 开始时间（距离00:00的秒数）
+  final int start;
 
-  /// 结束时间（HH:mm）
-  final String end;
+  /// 结束时间（距离00:00的秒数）
+  final int end;
 
   Period({required this.start, required this.end});
 
