@@ -1,0 +1,24 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'program.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Program _$ProgramFromJson(Map<String, dynamic> json) => Program(
+  id: (json['id'] as num).toInt(),
+  programName: json['program_name'] as String,
+  timeConfig: TimeConfig.fromJson(json['time_config'] as Map<String, dynamic>),
+  layers:
+      (json['layers'] as List<dynamic>)
+          .map((e) => Layer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+);
+
+Map<String, dynamic> _$ProgramToJson(Program instance) => <String, dynamic>{
+  'id': instance.id,
+  'program_name': instance.programName,
+  'time_config': instance.timeConfig,
+  'layers': instance.layers,
+};
