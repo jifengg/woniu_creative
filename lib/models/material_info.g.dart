@@ -9,6 +9,7 @@ part of 'material_info.dart';
 MaterialInfo _$MaterialInfoFromJson(Map<String, dynamic> json) => MaterialInfo(
   id: (json['id'] as num).toInt(),
   type: $enumDecode(_$MaterialTypesEnumMap, json['type']),
+  version: (json['version'] as num).toInt(),
   url: json['url'] as String?,
   duration: (json['duration'] as num?)?.toInt(),
   content: json['content'] as String?,
@@ -18,6 +19,7 @@ Map<String, dynamic> _$MaterialInfoToJson(MaterialInfo instance) =>
     <String, dynamic>{
       'id': instance.id,
       'type': _$MaterialTypesEnumMap[instance.type]!,
+      'version': instance.version,
       'url': instance.url,
       'duration': instance.duration,
       'content': instance.content,

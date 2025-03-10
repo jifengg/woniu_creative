@@ -9,8 +9,11 @@ part of 'channel_response.dart';
 ChannelResponse _$ChannelResponseFromJson(Map<String, dynamic> json) =>
     ChannelResponse(
       code: (json['code'] as num).toInt(),
-      message: json['message'] as String,
-      data: Channel.fromJson(json['data'] as Map<String, dynamic>),
+      message: json['message'] as String?,
+      data:
+          json['data'] == null
+              ? null
+              : Channel.fromJson(json['data'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ChannelResponseToJson(ChannelResponse instance) =>

@@ -1,4 +1,5 @@
 // lib/models/period.dart
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'period.g.dart';
@@ -16,4 +17,24 @@ class Period {
 
   factory Period.fromJson(Map<String, dynamic> json) => _$PeriodFromJson(json);
   Map<String, dynamic> toJson() => _$PeriodToJson(this);
+
+  static Period get allDay => Period(start: 0, end: 86400);
+  static Period get am => Period(start: 0, end: 43200);
+  static Period get pm => Period(start: 43200, end: 86400);
+  static Period fromHour(
+    int hour, [
+    int minute = 0,
+    Duration duration = const Duration(hours: 1),
+  ]) {
+    var start = hour * 3600;
+    return Period(start: start, end: start + duration.inSeconds);
+  }
+
+  static Period fromTime(
+    TimeOfDay time, [
+    Duration duration = const Duration(hours: 1),
+  ]) {
+    var start = time.hour * 3600 + time.minute * 60;
+    return Period(start: start, end: start + duration.inSeconds);
+  }
 }

@@ -84,6 +84,12 @@ class TimeConfig {
       (range) => nowSeconds >= range.start && nowSeconds <= range.end,
     );
   }
+
+  static TimeConfig get everyDay => DailyTimeConfig(
+    periods: [Period.allDay],
+    start: DateTime(2000),
+    end: DateTime(3000),
+  );
 }
 
 /// 每日配置

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:qr_flutter/qr_flutter.dart';
+
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
   @override
@@ -64,89 +66,79 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Color(0xFFf5f7fa), Color(0xFFc3cfe2)],
-          ),
-        ),
-        child: Center(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.all(24),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // 机器码卡片
-                Card(
-                  elevation: 8,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(24),
-                    child: Column(
-                      children: [
-                        Text(
-                          '设备注册码',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey[600],
-                          ),
-                        ),
-                        SizedBox(height: 12),
-                        Text(
+      body: Center(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // 机器码卡片
+              Card(
+                elevation: 8,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(24),
+                  child: Column(
+                    children: [
+                      Text(
+                        '设备注册码',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                      SizedBox(height: 12),
+                      SelectionArea(
+                        child: Text(
                           _machineCode,
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).primaryColor,
-                          ),
+                          style: Theme.of(context).textTheme.headlineLarge,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
+              ),
 
-                SizedBox(height: 32),
+              SizedBox(height: 32),
 
-                // 设备信息卡片
-                Card(
-                  elevation: 4,
-                  child: Padding(
-                    padding: EdgeInsets.all(16),
-                    child: Column(
-                      children: [
-                        _buildInfoRow('设备型号', _deviceModel),
-                        Divider(),
-                        _buildInfoRow('系统版本', _osVersion),
-                        Divider(),
-                        _buildInfoRow('网络状态', _networkStatus),
-                      ],
-                    ),
+              // 设备信息卡片
+              Card(
+                elevation: 4,
+                child: Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      _buildInfoRow('设备型号', _deviceModel),
+                      Divider(),
+                      _buildInfoRow('系统版本', _osVersion),
+                      Divider(),
+                      _buildInfoRow('网络状态', _networkStatus),
+                    ],
                   ),
                 ),
+              ),
 
-                SizedBox(height: 32),
+              SizedBox(height: 32),
 
-                // // 二维码区域
-                // QrImage(
-                //   data: 'https://api.example.com/register?code=$_machineCode',
-                //   version: QrVersions.auto,
-                //   size: 180,
-                //   gapless: false,
-                //   embeddedImage: AssetImage('assets/icon.png'),
-                //   embeddedImageStyle: QrEmbeddedImageStyle(
-                //     size: Size(40, 40)
-                //   ),
-                // ),
-                SizedBox(height: 24),
+              // 二维码区域
+              QrImageView(
+                data: '中文☃️😩🧝🏡register?code=$_machineCode',
+                version: QrVersions.auto,
+                size: 280,
+                backgroundColor: Colors.white,
+                dataModuleStyle: QrDataModuleStyle(
+                  color: Colors.black,
+                  dataModuleShape: QrDataModuleShape.square,
+                ),
+                eyeStyle: QrEyeStyle(
+                  color: Colors.black,
+                  eyeShape: QrEyeShape.square,
+                ),
+              ),
+              SizedBox(height: 24),
 
-                // 状态提示区域
-                _buildStatusSection(),
-              ],
-            ),
+              // 状态提示区域
+              _buildStatusSection(),
+            ],
           ),
         ),
       ),
@@ -170,15 +162,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     if (_isRegistering) {
       return Column(
         children: [
-          CircularProgressIndicator(
-            strokeWidth: 2,
-            valueColor: AlwaysStoppedAnimation(Colors.blue),
-          ),
+          CircularProgressIndicator(strokeWidth: 2),
           SizedBox(height: 16),
-          Text(
-            '正在等待注册...',
-            style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-          ),
+          Text('正在等待注册，请使用商家端扫码注册...'),
         ],
       );
     }
