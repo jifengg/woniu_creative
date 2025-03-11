@@ -6,6 +6,8 @@ import 'package:video_player/video_player.dart';
 import 'package:woniu_creative/global.dart';
 import 'package:woniu_creative/models/enums.dart';
 import 'package:woniu_creative/models/material_info.dart';
+import 'package:woniu_creative/utils/file_manager.dart';
+import 'package:woniu_creative/utils/logger_utils.dart';
 
 class DemoWidget {
   static BuildContext get context => navigatorKey.currentContext!;
@@ -71,24 +73,50 @@ class MaterialWidget extends StatefulWidget {
 
 class _MaterialWidgetState extends State<MaterialWidget> {
   MaterialInfo get material => widget.material;
+
+  Future<File>? getLocalFileFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    info('MaterialWidget 初始化 - ${material.uniqueKey}');
+  }
+
   @override
   Widget build(BuildContext context) {
     return getWidgetOfMaterial();
   }
 
   Widget getWidgetOfMaterial() {
+    if (material.type.isFileType && getLocalFileFuture == null) {
+      getLocalFileFuture = getLocalFile();
+    }
     switch (material.type) {
       case MaterialTypes.text:
         return buildText();
-      case MaterialTypes.image:
-        return buildImage();
       case MaterialTypes.link:
         return buildWebview();
+      case MaterialTypes.image:
       case MaterialTypes.video:
-        return buildVideo();
+      case MaterialTypes.audio:
+        return buildLoading();
+      // ignore: unreachable_switch_default
       default:
         return Container();
     }
+  }
+
+  Future<File> getLocalFile() async {
+    while (mounted) {
+      var f = await FileManager.getFile(material);
+      // 如果本地文件不存在，则等待。
+      if (f == null) {
+        await Future.delayed(const Duration(seconds: 1));
+      } else {
+        return f;
+      }
+    }
+    return File('');
   }
 
   Widget buildText() {
@@ -100,16 +128,37 @@ class _MaterialWidgetState extends State<MaterialWidget> {
     );
   }
 
-  Widget buildImage() {
-    return Image.network(material.url ?? "", fit: BoxFit.fill);
-  }
-
   Widget buildWebview() {
     return InAppWebView(
       initialUrlRequest: URLRequest(
         url: WebUri.uri(Uri.parse(material.url ?? "")),
       ),
     );
+  }
+
+  Widget buildLoading() {
+    return FutureBuilder(
+      future: getLocalFileFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          var data = snapshot.data!;
+          switch (material.type) {
+            case MaterialTypes.image:
+              return buildImage(data);
+            case MaterialTypes.video:
+              return buildVideo();
+            default:
+              return Center(child: Text('暂不支持该类型：${material.type.name}'));
+          }
+        } else {
+          return Center(child: CircularProgressIndicator.adaptive());
+        }
+      },
+    );
+  }
+
+  Widget buildImage(File file) {
+    return Image.file(file, fit: BoxFit.fill);
   }
 
   VideoPlayerController? _videoPlayerController;

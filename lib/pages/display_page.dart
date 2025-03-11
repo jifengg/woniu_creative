@@ -2,10 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:woniu_creative/api/api.dart';
-import 'package:woniu_creative/models/channel.dart';
-import 'package:woniu_creative/models/layer.dart';
-import 'package:woniu_creative/models/program.dart';
+import 'package:woniu_creative/models/models.dart';
 import 'package:woniu_creative/pages/play_list_page.dart';
+import 'package:woniu_creative/utils/file_manager.dart';
 import 'package:woniu_creative/widgets/current_time_widget.dart';
 
 class DisplayPage extends StatefulWidget {
@@ -48,6 +47,8 @@ class _DisplayPageState extends State<DisplayPage> {
       if (newChannelData != null) {
         channel = newChannelData!;
         newChannelData = null;
+        // 下载所有的素材
+        FileManager.downloadFromChannel(channel!);
       }
       if (channel != null) {
         for (var i = 0; i < channel!.programs.length; i++) {

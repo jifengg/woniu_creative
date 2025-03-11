@@ -11,7 +11,11 @@ enum MaterialTypes {
   @JsonValue(4)
   audio,
   @JsonValue(5)
-  link,
+  link;
+
+  static Set<MaterialTypes> fileTypes = {image, video, audio};
+  /// 是否是文件素材
+  bool get isFileType => fileTypes.contains(this);
 }
 
 enum TimeConfigType {

@@ -1,15 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:woniu_creative/models/channel.dart';
-import 'package:woniu_creative/models/enums.dart';
-import 'package:woniu_creative/models/layer.dart';
-import 'package:woniu_creative/models/layout_config.dart';
-import 'package:woniu_creative/models/material_info.dart';
-import 'package:woniu_creative/models/period.dart';
-import 'package:woniu_creative/models/play_item.dart';
-import 'package:woniu_creative/models/play_list.dart';
-import 'package:woniu_creative/models/position.dart';
-import 'package:woniu_creative/models/program.dart';
-import 'package:woniu_creative/models/time_config.dart';
+import '../models/api/channel_response.dart';
+import '../models/models.dart';
 
 var channel1 = Channel(
   id: 1,
@@ -19,12 +10,7 @@ var channel1 = Channel(
       id: 1,
       programName: "programName",
       priority: 999,
-      timeConfig: TimeConfig(
-        type: TimeConfigType.daily,
-        start: DateTime(2000),
-        end: DateTime(2099),
-        periods: [Period(start: 0, end: 86400)],
-      ),
+      timeConfig: TimeConfig.everyDay,
       layers: [
         Layer(
           id: 1,
@@ -39,6 +25,7 @@ var channel1 = Channel(
                       id: 3,
                       type: MaterialTypes.image,
                       version: 1,
+                      fileExtension: 'jpg',
                       url:
                           "https://img1.baidu.com/it/u=2786614520,3496145671&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800",
                     ),
@@ -48,6 +35,7 @@ var channel1 = Channel(
                       id: 4,
                       type: MaterialTypes.image,
                       version: 1,
+                      fileExtension: 'jpg',
                       url:
                           "https://i0.hdslb.com/bfs/archive/63d70f20eb05f89deb14d2be0599e9625c131380.jpg",
                     ),
@@ -112,6 +100,7 @@ var channel1 = Channel(
                       id: 13,
                       type: MaterialTypes.video,
                       version: 1,
+                      fileExtension: 'avi',
                       url:
                           "C:/Users/xuxiaodong/Pictures/ffmpeg/素材/big_buck_bunny_10s.avi",
                     ),
@@ -152,6 +141,7 @@ var channel1 = Channel(
                       id: 23,
                       type: MaterialTypes.image,
                       version: 1,
+                      fileExtension: 'jpg',
                       url:
                           "https://img0.baidu.com/it/u=3217812679,2585737758&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500",
                     ),
@@ -203,6 +193,7 @@ var channel2 = Channel(
                       id: 4,
                       type: MaterialTypes.image,
                       version: 1,
+                      fileExtension: 'jpg',
                       url:
                           "https://i0.hdslb.com/bfs/archive/63d70f20eb05f89deb14d2be0599e9625c131380.jpg",
                     ),
@@ -231,3 +222,12 @@ var channel2 = Channel(
     ),
   ],
 );
+
+ChannelResponse getMyChannelData() {
+  var channel = channel1;
+  if ((DateTime.now().second / 10).floor() % 2 == 0) {
+    channel = channel2;
+  }
+  var res = ChannelResponse(code: 200, data: channel);
+  return res;
+}

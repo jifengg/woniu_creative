@@ -20,6 +20,8 @@ class MaterialInfo {
   /// 素材URL
   final String? url;
 
+  final String? fileExtension;
+
   /// 素材时长
   final int? duration;
 
@@ -33,6 +35,7 @@ class MaterialInfo {
     this.url,
     this.duration,
     this.content,
+    this.fileExtension,
   });
 
   factory MaterialInfo.fromJson(Map<String, dynamic> json) =>
@@ -51,5 +54,6 @@ class MaterialInfo {
   /// 表示文件版本的唯一key，用于判断文件是否需要更新，由type、id、version组成。
   /// 也可以用于文件名
   @JsonKey(includeFromJson: false, includeToJson: false)
-  String get uniqueKey => '${type}_${id}_$version';
+  String get uniqueKey =>
+      '${type.name}_${id}_$version.${fileExtension ?? 'bin'}';
 }

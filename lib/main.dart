@@ -1,14 +1,18 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:video_player_media_kit/video_player_media_kit.dart';
 import 'package:woniu_creative/global.dart';
 import 'package:woniu_creative/pages/admin/admin_page.dart';
 import 'package:woniu_creative/pages/display_page.dart';
 import 'package:woniu_creative/utils/file_manager.dart';
+import 'package:woniu_creative/utils/logger_utils.dart';
 import 'pages/register_page.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   VideoPlayerMediaKit.ensureInitialized(
     android:
@@ -19,7 +23,13 @@ void main() {
         true, // default: false    -    dependency: media_kit_libs_windows_video
     // linux: true,            // default: false    -    dependency: media_kit_libs_linux
   );
-  FileManager.init();
+  var fileRoot =
+      (await (Platform.isAndroid
+              ? getExternalStorageDirectory()
+              : getApplicationSupportDirectory()))!
+          .path;
+  LoggerUtils.init();
+  FileManager.init(rootPath: fileRoot);
   runApp(const MyApp());
 }
 

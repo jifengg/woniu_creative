@@ -42,7 +42,7 @@ class _PlayListPageState extends State<PlayListPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialWidget(
-      key: ValueKey(currentItem.material.id),
+      key: ValueKey(currentItem.material.uniqueKey),
       material: currentItem.material,
     );
   }
