@@ -1,7 +1,13 @@
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:woniu_creative/api/api.dart';
+import 'package:woniu_creative/utils/deivce_id.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -11,20 +17,44 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   // 模拟设备信息
-  final String _machineCode = 'SN20231001001';
-  final String _deviceModel = 'SM-G975F';
-  final String _osVersion = 'Android 13';
-  final String _networkStatus = 'Wi-Fi 已连接';
+  String _machineCode = '生成中...';
+  String _deviceModel = '获取中...';
+  String _osVersion = '获取中...';
+  String _networkStatus = '获取中...';
 
   // 注册状态管理
   bool _isRegistering = false;
   bool _registrationFailed = false;
   late Timer _retryTimer;
 
+  Future? initFuture;
+
   @override
   void initState() {
     super.initState();
+    initFuture = init();
+  }
+
+  Future init() async {
+    _machineCode = await getDeviceId();
+    var diplugin = DeviceInfoPlugin();
+    if (kIsWeb) {
+      var info = (await diplugin.webBrowserInfo);
+      _deviceModel = info.browserName.name;
+      _osVersion = info.appVersion ?? '';
+    } else {
+      if (Platform.isAndroid) {
+        var info = await diplugin.androidInfo;
+        _deviceModel = info.model;
+      } else if (Platform.isWindows) {
+        var info = await diplugin.windowsInfo;
+        _deviceModel = info.productName;
+        _osVersion = info.displayVersion;
+      }
+    }
+    _networkStatus = 'Wi-Fi 已连接';
     _startRegistration();
+    setState(() {});
   }
 
   @override
@@ -35,27 +65,25 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   void _startRegistration() async {
     setState(() => _isRegistering = true);
-
-    // 模拟网络请求
-    await Future.delayed(Duration(seconds: 3));
-
-    // 模拟20%失败概率
-    if (DateTime.now().millisecond % 5 == 0) {
+    try {
+      var registerData = await register(_machineCode);
+      if (registerData.isRegistered) {
+        //注册成功
+        setState(() {
+          _isRegistering = false;
+        });
+      } else {
+        //未注册
+        await Future.delayed(Duration(seconds: 1));
+        _startRegistration();
+      }
+    } catch (e) {
+      // 出错
       setState(() {
         _isRegistering = false;
         _registrationFailed = true;
       });
-      _startRetryTimer();
-    } else {
-      // 跳转到主页面
-      // Navigator.of(context).pushReplacementNamed('/home');
     }
-  }
-
-  void _startRetryTimer() {
-    _retryTimer = Timer.periodic(Duration(seconds: 5), (timer) {
-      _startRegistration();
-    });
   }
 
   void _retryRegistration() {
@@ -121,7 +149,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
               // 二维码区域
               QrImageView(
-                data: '中文☃️😩🧝🏡register?code=$_machineCode',
+                data: 'wnc:register:$_machineCode',
                 version: QrVersions.auto,
                 size: 280,
                 backgroundColor: Colors.white,
@@ -181,6 +209,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       );
     }
 
-    return SizedBox();
+    return Center(child: Text('已注册'));
   }
 }

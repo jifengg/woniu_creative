@@ -1,6 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:woniu_creative/models/api/register_response.dart';
 import '../models/api/channel_response.dart';
 import '../models/models.dart';
+
+var materialsImage = [
+  MaterialInfo(
+    id: 3,
+    type: MaterialTypes.image,
+    version: 1,
+    fileExtension: 'jpg',
+    url: "https://img1.baidu.com/it/u=2786614520,3496145671&fm=253",
+  ),
+  MaterialInfo(
+    id: 4,
+    type: MaterialTypes.image,
+    version: 1,
+    fileExtension: 'jpg',
+    url:
+        "https://i0.hdslb.com/bfs/archive/63d70f20eb05f89deb14d2be0599e9625c131380.jpg",
+  ),
+];
+
+var materialsVideo = [
+  MaterialInfo(
+    id: 13,
+    type: MaterialTypes.video,
+    version: 1,
+    fileExtension: 'avi',
+    url: "C:/Users/xuxiaodong/Pictures/ffmpeg/素材/big_buck_bunny_10s.avi",
+  ),
+];
+
+var materialsLink = [
+  MaterialInfo(
+    id: 5001,
+    type: MaterialTypes.link,
+    version: 1,
+    // 天气
+    url: "https://i.tianqi.com/?c=code&a=getcode&id=82&site=16&icon=3&py=wuxi1",
+  ),
+  MaterialInfo(
+    id: 5002,
+    type: MaterialTypes.link,
+    version: 1,
+    // 翻页时钟
+    url: "https://flipflow.neverup.cn/clock.html",
+  ),
+];
 
 var channel1 = Channel(
   id: 1,
@@ -20,27 +66,8 @@ var channel1 = Channel(
               position: Position(x: 0, y: 0, w: 1, h: 1),
               playList: PlayList(
                 items: [
-                  PlayItem(
-                    material: MaterialInfo(
-                      id: 3,
-                      type: MaterialTypes.image,
-                      version: 1,
-                      fileExtension: 'jpg',
-                      url:
-                          "https://img1.baidu.com/it/u=2786614520,3496145671&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800",
-                    ),
-                  ),
-                  PlayItem(
-                    material: MaterialInfo(
-                      id: 4,
-                      type: MaterialTypes.image,
-                      version: 1,
-                      fileExtension: 'jpg',
-                      url:
-                          "https://i0.hdslb.com/bfs/archive/63d70f20eb05f89deb14d2be0599e9625c131380.jpg",
-                    ),
-                    duration: 10000,
-                  ),
+                  PlayItem(material: materialsImage[0]),
+                  PlayItem(material: materialsImage[1], duration: 10000),
                 ],
               ),
             ),
@@ -52,19 +79,7 @@ var channel1 = Channel(
           layoutConfigs: [
             LayoutConfig(
               position: Position(x: 0.02, y: 0.02, w: 0.32, h: 0.75),
-              playList: PlayList(
-                items: [
-                  PlayItem(
-                    material: MaterialInfo(
-                      id: 1,
-                      type: MaterialTypes.link,
-                      version: 1,
-                      url:
-                          "https://i.tianqi.com/?c=code&a=getcode&id=82&site=16&icon=3&py=wuxi1",
-                    ),
-                  ),
-                ],
-              ),
+              playList: PlayList(items: [PlayItem(material: materialsLink[1])]),
               backgroundColor: Colors.white.toARGB32(),
             ),
             LayoutConfig(
@@ -73,7 +88,7 @@ var channel1 = Channel(
                 items: [
                   PlayItem(
                     material: MaterialInfo(
-                      id: 2,
+                      id: 1002,
                       type: MaterialTypes.text,
                       version: 1,
                       content: "标题1",
@@ -81,7 +96,7 @@ var channel1 = Channel(
                   ),
                   PlayItem(
                     material: MaterialInfo(
-                      id: 12,
+                      id: 1012,
                       version: 1,
                       type: MaterialTypes.text,
                       content: "这是另一个标题",
@@ -94,18 +109,7 @@ var channel1 = Channel(
             LayoutConfig(
               position: Position(x: 0.35, y: 0.50, w: 0.35, h: 0.25),
               playList: PlayList(
-                items: [
-                  PlayItem(
-                    material: MaterialInfo(
-                      id: 13,
-                      type: MaterialTypes.video,
-                      version: 1,
-                      fileExtension: 'avi',
-                      url:
-                          "C:/Users/xuxiaodong/Pictures/ffmpeg/素材/big_buck_bunny_10s.avi",
-                    ),
-                  ),
-                ],
+                items: [PlayItem(material: materialsVideo[0])],
               ),
             ),
           ],
@@ -135,18 +139,7 @@ var channel1 = Channel(
             LayoutConfig(
               position: Position.fullscreen,
               playList: PlayList(
-                items: [
-                  PlayItem(
-                    material: MaterialInfo(
-                      id: 23,
-                      type: MaterialTypes.image,
-                      version: 1,
-                      fileExtension: 'jpg',
-                      url:
-                          "https://img0.baidu.com/it/u=3217812679,2585737758&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500",
-                    ),
-                  ),
-                ],
+                items: [PlayItem(material: materialsImage[1])],
               ),
             ),
             LayoutConfig(
@@ -229,5 +222,14 @@ ChannelResponse getMyChannelData() {
     channel = channel2;
   }
   var res = ChannelResponse(code: 200, data: channel);
+  return res;
+}
+
+RegisterResponse register(String deviceId) {
+  //
+  var data1 = RegisterData(isRegistered: true, ownerId: 9527);
+  var data2 = RegisterData(isRegistered: false, ownerId: 9527);
+  var data = 2 == 2 ? data1 : data2;
+  var res = RegisterResponse(code: 200, data: data);
   return res;
 }

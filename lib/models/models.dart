@@ -11,3 +11,4 @@ export 'play_list.dart';
 export 'position.dart';
 export 'program.dart';
 export 'time_config.dart';
+export 'register_data.dart';

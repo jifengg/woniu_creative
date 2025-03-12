@@ -43,13 +43,13 @@ class MaterialInfo {
   Map<String, dynamic> toJson() => _$MaterialInfoToJson(this);
 
   /// 扩展字段，程序中使用
-  /// 是否下载完成
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  bool isDownloaded = false;
+  // /// 是否下载完成
+  // @JsonKey(includeFromJson: false, includeToJson: false)
+  // bool isDownloaded = false;
 
-  /// 文件本地路径
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  String localPath = '';
+  // /// 文件本地路径
+  // @JsonKey(includeFromJson: false, includeToJson: false)
+  // String localPath = '';
 
   /// 表示文件版本的唯一key，用于判断文件是否需要更新，由type、id、version组成。
   /// 也可以用于文件名
