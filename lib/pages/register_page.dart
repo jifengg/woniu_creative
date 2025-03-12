@@ -7,6 +7,7 @@ import 'dart:async';
 
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:woniu_creative/api/api.dart';
+import 'package:woniu_creative/global.dart';
 import 'package:woniu_creative/utils/deivce_id.dart';
 
 class RegistrationScreen extends StatefulWidget {
@@ -37,6 +38,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   Future init() async {
     _machineCode = await getDeviceId();
+    deviceId = _machineCode;
     var diplugin = DeviceInfoPlugin();
     if (kIsWeb) {
       var info = (await diplugin.webBrowserInfo);

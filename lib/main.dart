@@ -9,6 +9,7 @@ import 'package:woniu_creative/global.dart';
 import 'package:woniu_creative/pages/admin/admin_page.dart';
 import 'package:woniu_creative/pages/client_setting_page.dart';
 import 'package:woniu_creative/pages/display_page.dart';
+import 'package:woniu_creative/pages/switch_page.dart';
 import 'package:woniu_creative/utils/file_manager.dart';
 import 'package:woniu_creative/utils/logger_utils.dart';
 import 'pages/register_page.dart';
@@ -57,8 +58,9 @@ class MyApp extends StatelessWidget {
       // 添加指定支持的locale，在windows平台显示中文时，可以避免字体回落造成的cjk字符显示效果与预期不一致。
       supportedLocales: const [Locale('zh', 'CN'), Locale('en', 'US')],
       // home: const DisplayPage(),
-      initialRoute: '/client_setting',
+      initialRoute: '/switch',
       routes: {
+        '/switch': (context) => const SwitchPage(),
         '/register': (context) => const RegistrationScreen(),
         '/display': (context) => const DisplayPage(),
         '/client_setting': (context) => const ClientSettingPage(),
