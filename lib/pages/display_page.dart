@@ -102,10 +102,10 @@ class _DisplayPageState extends State<DisplayPage> {
         future: channelInitFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return (program == null || program!.layers.isEmpty)
+            return (program?.layers == null || program!.layers!.isEmpty)
                 ? getEmptyProgram()
                 : Stack(
-                  children: program!.layers.map((i) => buildLayer(i)).toList(),
+                  children: program!.layers!.map((i) => buildLayer(i)).toList(),
                 );
           } else {
             return Center(

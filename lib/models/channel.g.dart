@@ -14,6 +14,7 @@ Channel _$ChannelFromJson(Map<String, dynamic> json) => Channel(
           ?.map((e) => Program.fromJson(e as Map<String, dynamic>))
           .toList() ??
       const [],
+  ownerId: (json['owner_id'] as num?)?.toInt(),
   createdAt: _$JsonConverterFromJson<String, DateTime>(
     json['created_at'],
     const CustomDateTimeFormatter().fromJson,
@@ -22,13 +23,9 @@ Channel _$ChannelFromJson(Map<String, dynamic> json) => Channel(
     json['updated_at'],
     const CustomDateTimeFormatter().fromJson,
   ),
-  ownerId: (json['owner_id'] as num?)?.toInt(),
 );
 
 Map<String, dynamic> _$ChannelToJson(Channel instance) => <String, dynamic>{
-  'id': instance.id,
-  'channel_name': instance.channelName,
-  'programs': instance.programs,
   'created_at': _$JsonConverterToJson<String, DateTime>(
     instance.createdAt,
     const CustomDateTimeFormatter().toJson,
@@ -38,6 +35,9 @@ Map<String, dynamic> _$ChannelToJson(Channel instance) => <String, dynamic>{
     const CustomDateTimeFormatter().toJson,
   ),
   'owner_id': instance.ownerId,
+  'id': instance.id,
+  'channel_name': instance.channelName,
+  'programs': instance.programs,
 };
 
 Value? _$JsonConverterFromJson<Json, Value>(

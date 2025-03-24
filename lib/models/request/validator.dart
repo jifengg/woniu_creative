@@ -42,13 +42,16 @@ void isNotGreaterThan(dynamic v, dynamic max) {
   }
 }
 
-int getInt(
+int? getInt(
   Map<String, dynamic> json,
   String key, {
   bool required = true,
   int? min,
   int? max,
 }) {
+  if (!required && json[key] == null) {
+    return null;
+  }
   var v = isNotNull(json, key);
   var id = v is int ? v : int.tryParse(v);
   if (id == null) {
@@ -59,7 +62,7 @@ int getInt(
   return id;
 }
 
-int getUint(
+int? getUint(
   Map<String, dynamic> json,
   String key, {
   bool required = true,
@@ -72,18 +75,36 @@ int getUint(
   return getInt(json, key, required: required, min: min, max: max);
 }
 
-String getString(
+String? getString(
   Map<String, dynamic> json,
   String key, {
   bool required = true,
   int? min,
   int? max,
 }) {
+  if (!required && json[key] == null) {
+    return null;
+  }
   var v = isNotNull(json, key);
   if (v is String == false) {
     v = v.toString();
   }
   if (min != null) isNotLessThan(v, min);
   if (max != null) isNotGreaterThan(v, max);
+  return v;
+}
+
+Map<String, dynamic>? getMap(
+  Map<String, dynamic> json,
+  String key, {
+  bool required = true,
+}) {
+  if (!required && json[key] == null) {
+    return null;
+  }
+  var v = isNotNull(json, key);
+  if (v is Map<String, dynamic> == false) {
+    throw ArgumentError('$key must be a map');
+  }
   return v;
 }

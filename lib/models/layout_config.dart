@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'play_list.dart';
-import 'position.dart';
+import 'models.dart';
 
 part 'layout_config.g.dart';
 

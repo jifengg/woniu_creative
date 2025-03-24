@@ -1,21 +1,20 @@
 // lib/models/material.dart
 import 'package:json_annotation/json_annotation.dart';
-
-import 'enums.dart';
+import 'models.dart';
 
 part 'material_info.g.dart';
 
 /// 素材实体类
 @JsonSerializable()
-class MaterialInfo {
+class MaterialInfo extends BaseOwnerModel {
   /// 素材唯一ID
-  final int id;
+  final int? id;
 
   /// 素材类型
   final MaterialTypes type;
 
   /// 素材版本
-  final int version;
+  final int? version;
 
   /// 素材URL
   final String? url;
@@ -30,17 +29,21 @@ class MaterialInfo {
   final String? content;
 
   MaterialInfo({
-    required this.id,
+    this.id,
     required this.type,
-    required this.version,
+    this.version,
     this.url,
     this.duration,
     this.content,
     this.fileExtension,
+    super.ownerId,
+    super.createdAt,
+    super.updatedAt,
   });
 
   factory MaterialInfo.fromJson(Map<String, dynamic> json) =>
       _$MaterialInfoFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$MaterialInfoToJson(this);
 
   /// 扩展字段，程序中使用

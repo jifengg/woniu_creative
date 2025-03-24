@@ -1,21 +1,21 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'program.dart';
+part of 'merchant.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Program _$ProgramFromJson(Map<String, dynamic> json) => Program(
+Merchant _$MerchantFromJson(Map<String, dynamic> json) => Merchant(
   id: (json['id'] as num?)?.toInt(),
-  programName: json['program_name'] as String,
-  timeConfig: TimeConfig.fromJson(json['time_config'] as Map<String, dynamic>),
-  layers:
-      (json['layers'] as List<dynamic>?)
-          ?.map((e) => Layer.fromJson(e as Map<String, dynamic>))
-          .toList(),
-  priority: (json['priority'] as num?)?.toInt() ?? 1000,
-  ownerId: (json['owner_id'] as num?)?.toInt(),
+  name: json['name'] as String,
+  username: json['username'] as String,
+  passwordHash: json['password_hash'] as String? ?? '',
+  salt: json['salt'] as String? ?? '',
+  lastLogin: _$JsonConverterFromJson<String, DateTime>(
+    json['last_login'],
+    const CustomDateTimeFormatter().fromJson,
+  ),
   createdAt: _$JsonConverterFromJson<String, DateTime>(
     json['created_at'],
     const CustomDateTimeFormatter().fromJson,
@@ -26,7 +26,7 @@ Program _$ProgramFromJson(Map<String, dynamic> json) => Program(
   ),
 );
 
-Map<String, dynamic> _$ProgramToJson(Program instance) => <String, dynamic>{
+Map<String, dynamic> _$MerchantToJson(Merchant instance) => <String, dynamic>{
   'created_at': _$JsonConverterToJson<String, DateTime>(
     instance.createdAt,
     const CustomDateTimeFormatter().toJson,
@@ -35,12 +35,14 @@ Map<String, dynamic> _$ProgramToJson(Program instance) => <String, dynamic>{
     instance.updatedAt,
     const CustomDateTimeFormatter().toJson,
   ),
-  'owner_id': instance.ownerId,
   'id': instance.id,
-  'program_name': instance.programName,
-  'time_config': instance.timeConfig,
-  'priority': instance.priority,
-  'layers': instance.layers,
+  'name': instance.name,
+  'username': instance.username,
+  'last_login': _$JsonConverterToJson<String, DateTime>(
+    instance.lastLogin,
+    const CustomDateTimeFormatter().toJson,
+  ),
+  'password_hash': instance.passwordHash,
 };
 
 Value? _$JsonConverterFromJson<Json, Value>(

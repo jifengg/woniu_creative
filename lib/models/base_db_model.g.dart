@@ -1,16 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'play_item.dart';
+part of 'base_db_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-PlayItem _$PlayItemFromJson(Map<String, dynamic> json) => PlayItem(
-  id: (json['id'] as num?)?.toInt(),
-  material: MaterialInfo.fromJson(json['material'] as Map<String, dynamic>),
-  duration: (json['duration'] as num?)?.toInt(),
-  ownerId: (json['owner_id'] as num?)?.toInt(),
+BaseDbModel _$BaseDbModelFromJson(Map<String, dynamic> json) => BaseDbModel(
   createdAt: _$JsonConverterFromJson<String, DateTime>(
     json['created_at'],
     const CustomDateTimeFormatter().fromJson,
@@ -21,20 +17,17 @@ PlayItem _$PlayItemFromJson(Map<String, dynamic> json) => PlayItem(
   ),
 );
 
-Map<String, dynamic> _$PlayItemToJson(PlayItem instance) => <String, dynamic>{
-  'created_at': _$JsonConverterToJson<String, DateTime>(
-    instance.createdAt,
-    const CustomDateTimeFormatter().toJson,
-  ),
-  'updated_at': _$JsonConverterToJson<String, DateTime>(
-    instance.updatedAt,
-    const CustomDateTimeFormatter().toJson,
-  ),
-  'owner_id': instance.ownerId,
-  'id': instance.id,
-  'material': instance.material,
-  'duration': instance.duration,
-};
+Map<String, dynamic> _$BaseDbModelToJson(BaseDbModel instance) =>
+    <String, dynamic>{
+      'created_at': _$JsonConverterToJson<String, DateTime>(
+        instance.createdAt,
+        const CustomDateTimeFormatter().toJson,
+      ),
+      'updated_at': _$JsonConverterToJson<String, DateTime>(
+        instance.updatedAt,
+        const CustomDateTimeFormatter().toJson,
+      ),
+    };
 
 Value? _$JsonConverterFromJson<Json, Value>(
   Object? json,

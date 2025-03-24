@@ -56,7 +56,10 @@ class FileManager {
       return;
     }
     for (var p in channel.programs!) {
-      for (var l in p.layers) {
+      if (p.layers == null) {
+        continue;
+      }
+      for (var l in p.layers!) {
         for (var lc in l.layoutConfigs) {
           if (lc.playList.items != null) {
             for (var i in lc.playList.items!) {

@@ -1,13 +1,12 @@
 // lib/models/channel.dart
 import 'package:json_annotation/json_annotation.dart';
-import 'program.dart';
-import 'custom_formatter.dart';
+import 'models.dart';
 
 part 'channel.g.dart';
 
 /// 频道实体类
 @JsonSerializable()
-class Channel {
+class Channel extends BaseOwnerModel {
   /// 频道唯一ID
   final int? id;
 
@@ -18,30 +17,17 @@ class Channel {
   /// 包含的节目列表
   final List<Program>? programs;
 
-  /// 创建时间
-  @JsonKey(name: 'created_at')
-  @CustomDateTimeFormatter()
-  final DateTime? createdAt;
-
-  /// 更新时间
-  @JsonKey(name: 'updated_at')
-  @CustomDateTimeFormatter()
-  final DateTime? updatedAt;
-
-  /// 所有者ID
-  @JsonKey(name: 'owner_id')
-  final int? ownerId;
-
   Channel({
-    required this.id,
+    this.id,
     required this.channelName,
     this.programs = const [],
-    this.createdAt,
-    this.updatedAt,
-    this.ownerId,
+    super.ownerId,
+    super.createdAt,
+    super.updatedAt,
   });
 
   factory Channel.fromJson(Map<String, dynamic> json) =>
       _$ChannelFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$ChannelToJson(this);
 }

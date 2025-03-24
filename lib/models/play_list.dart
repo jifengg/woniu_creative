@@ -1,11 +1,15 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'play_item.dart';
+import 'models.dart';
 
 part 'play_list.g.dart';
 
 /// 布局配置
 @JsonSerializable()
-class PlayList {
+class PlayList extends BaseOwnerModel {
+  /// ID
+  final int? id;
+
+  /// 列表
   final List<PlayItem>? items;
 
   @JsonKey(name: 'play_mode')
@@ -15,9 +19,18 @@ class PlayList {
   @JsonKey(name: 'default_delay')
   final int defaultDelay;
 
-  PlayList({this.items, this.playMode = 1, this.defaultDelay = 3000});
+  PlayList({
+    this.id,
+    this.items,
+    this.playMode = 1,
+    this.defaultDelay = 3000,
+    super.ownerId,
+    super.createdAt,
+    super.updatedAt,
+  });
 
   factory PlayList.fromJson(Map<String, dynamic> json) =>
       _$PlayListFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$PlayListToJson(this);
 }

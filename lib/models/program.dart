@@ -1,15 +1,14 @@
 // lib/models/program.dart
 import 'package:json_annotation/json_annotation.dart';
-import 'time_config.dart';
-import 'layer.dart';
+import 'models.dart';
 
 part 'program.g.dart';
 
 /// 节目实体类
 @JsonSerializable()
-class Program {
+class Program extends BaseOwnerModel {
   /// 节目唯一ID
-  final int id;
+  final int? id;
 
   /// 节目名称
   @JsonKey(name: 'program_name')
@@ -23,17 +22,21 @@ class Program {
   final int priority;
 
   /// 包含的展示层列表
-  final List<Layer> layers;
+  final List<Layer>? layers;
 
   Program({
-    required this.id,
+    this.id,
     required this.programName,
     required this.timeConfig,
-    required this.layers,
+    this.layers,
     this.priority = 1000,
+    super.ownerId,
+    super.createdAt,
+    super.updatedAt,
   });
 
   factory Program.fromJson(Map<String, dynamic> json) =>
       _$ProgramFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$ProgramToJson(this);
 }
