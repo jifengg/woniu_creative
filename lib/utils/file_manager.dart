@@ -52,12 +52,17 @@ class FileManager {
     MaterialTypes.audio,
   };
   static Future downloadFromChannel(Channel channel) async {
-    for (var p in channel.programs) {
+    if (channel.programs == null) {
+      return;
+    }
+    for (var p in channel.programs!) {
       for (var l in p.layers) {
         for (var lc in l.layoutConfigs) {
-          for (var i in lc.playList.items) {
-            if (i.material.type.isFileType) {
-              downloadFile(i.material);
+          if (lc.playList.items != null) {
+            for (var i in lc.playList.items!) {
+              if (i.material.type.isFileType) {
+                downloadFile(i.material);
+              }
             }
           }
         }

@@ -20,6 +20,7 @@ class MaterialInfo {
   /// 素材URL
   final String? url;
 
+  @JsonKey(name: 'file_extension')
   final String? fileExtension;
 
   /// 素材时长

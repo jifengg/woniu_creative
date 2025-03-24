@@ -1,7 +1,7 @@
 // lib/models/channel_response.dart
 import 'package:json_annotation/json_annotation.dart';
-import 'package:woniu_creative/models/api/base_response.dart';
-import 'package:woniu_creative/models/channel.dart';
+import '../api/base_response.dart';
+import '../channel.dart';
 
 part 'channel_response.g.dart';
 

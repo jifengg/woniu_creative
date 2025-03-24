@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:woniu_creative/models/enums.dart';
-import 'package:woniu_creative/models/period.dart';
+import 'enums.dart';
+import 'period.dart';
+import 'custom_formatter.dart';
 
 part 'time_config.g.dart';
 
@@ -94,6 +94,7 @@ class TimeConfig {
 
 /// 每日配置
 @JsonSerializable()
+@CustomDateTimeFormatter()
 class DailyTimeConfig extends TimeConfig {
   DailyTimeConfig({
     required super.periods,
@@ -109,6 +110,7 @@ class DailyTimeConfig extends TimeConfig {
 
 /// 每周配置
 @JsonSerializable()
+@CustomDateTimeFormatter()
 class WeeklyTimeConfig extends TimeConfig {
   final List<int> daysOfWeek;
 
@@ -131,6 +133,7 @@ class WeeklyTimeConfig extends TimeConfig {
 
 /// 每月配置
 @JsonSerializable()
+@CustomDateTimeFormatter()
 class MonthlyTimeConfig extends TimeConfig {
   final List<int> daysOfMonth;
 
@@ -153,6 +156,7 @@ class MonthlyTimeConfig extends TimeConfig {
 }
 
 @JsonSerializable()
+@CustomDateTimeFormatter()
 class YearlyTimeConfig extends TimeConfig {
   final List<MonthDay> monthDays;
 
@@ -184,13 +188,13 @@ class MonthDay {
 
 /// 自定义配置（使用具体日期时间对）
 @JsonSerializable()
+@CustomDateTimeFormatter()
 class CustomTimeConfig extends TimeConfig {
   @JsonKey(name: 'date_ranges')
-  @DateTimeRangeJsonFormatter()
-  final List<DateTimeRange> dateRanges;
+  final List<DateTimeRange>? dateRanges;
 
   CustomTimeConfig({
-    required this.dateRanges,
+    this.dateRanges,
     required super.periods,
     required super.start,
     required super.end,
@@ -200,34 +204,16 @@ class CustomTimeConfig extends TimeConfig {
       _$CustomTimeConfigFromJson(json);
   @override
   Map<String, dynamic> toJson() => fixJson(_$CustomTimeConfigToJson(this));
-
-  @override
-  bool isTimeMatch(DateTime time) {
-    // 检查是否在日期范围内且满足时间要求
-    return dateRanges.any(
-          (range) => time.isAfter(range.start) && time.isBefore(range.end),
-        ) &&
-        super.isTimeMatch(time);
-  }
 }
 
-/// DateTimeRange 的json formatter，与Map相互转换
-class DateTimeRangeJsonFormatter extends JsonConverter<DateTimeRange, Map> {
-  const DateTimeRangeJsonFormatter();
+@JsonSerializable()
+@CustomDateTimeFormatter()
+class DateTimeRange {
+  final DateTime start;
+  final DateTime end;
 
-  @override
-  DateTimeRange fromJson(Map json) {
-    return DateTimeRange(
-      start: DateTime.parse(json['start'] as String),
-      end: DateTime.parse(json['end'] as String),
-    );
-  }
-
-  @override
-  Map toJson(DateTimeRange object) {
-    return {
-      'start': object.start.toIso8601String(),
-      'end': object.end.toIso8601String(),
-    };
-  }
+  DateTimeRange({required this.start, required this.end});
+  factory DateTimeRange.fromJson(Map<String, dynamic> json) =>
+      _$DateTimeRangeFromJson(json);
+  Map<String, dynamic> toJson() => _$DateTimeRangeToJson(this);
 }

@@ -20,7 +20,7 @@ class _DisplayPageState extends State<DisplayPage> {
   int currentIndex = -1;
 
   Program? get program =>
-      currentIndex == -1 ? null : channel?.programs[currentIndex];
+      currentIndex == -1 ? null : channel?.programs?[currentIndex];
 
   Timer? programTimer;
 
@@ -50,9 +50,9 @@ class _DisplayPageState extends State<DisplayPage> {
         // 下载所有的素材
         FileManager.downloadFromChannel(channel!);
       }
-      if (channel != null) {
-        for (var i = 0; i < channel!.programs.length; i++) {
-          var program = channel!.programs[i];
+      if (channel != null && channel!.programs != null) {
+        for (var i = 0; i < channel!.programs!.length; i++) {
+          var program = channel!.programs![i];
           if (program.timeConfig.isTimeMatch(now)) {
             if (topP == null || topP.priority < program.priority) {
               topP = program;

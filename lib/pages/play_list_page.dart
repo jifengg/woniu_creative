@@ -12,11 +12,11 @@ class PlayListPage extends StatefulWidget {
 
 class _PlayListPageState extends State<PlayListPage> {
   PlayList get playList => widget.playList;
-  PlayItem get currentItem => playList.items[currentIndex];
+  PlayItem get currentItem => playList.items![currentIndex];
   int currentIndex = 0;
 
   nextItem() {
-    currentIndex = (currentIndex + 1) % playList.items.length;
+    currentIndex = (currentIndex + 1) % playList.items!.length;
     play();
   }
 

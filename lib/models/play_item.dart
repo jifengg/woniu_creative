@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:woniu_creative/models/material_info.dart';
+import 'material_info.dart';
 
 part 'play_item.g.dart';
 

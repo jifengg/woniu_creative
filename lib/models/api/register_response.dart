@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:woniu_creative/models/api/base_response.dart';
-import 'package:woniu_creative/models/models.dart';
+import '../api/base_response.dart';
+import '../models.dart';
 
 part 'register_response.g.dart';
 

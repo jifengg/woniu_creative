@@ -1,5 +1,4 @@
 // lib/models/period.dart
-import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'period.g.dart';
@@ -27,14 +26,6 @@ class Period {
     Duration duration = const Duration(hours: 1),
   ]) {
     var start = hour * 3600;
-    return Period(start: start, end: start + duration.inSeconds);
-  }
-
-  static Period fromTime(
-    TimeOfDay time, [
-    Duration duration = const Duration(hours: 1),
-  ]) {
-    var start = time.hour * 3600 + time.minute * 60;
     return Period(start: start, end: start + duration.inSeconds);
   }
 }
