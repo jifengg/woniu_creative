@@ -7,16 +7,17 @@ part of 'base_db_model.dart';
 // **************************************************************************
 
 BaseDbModel _$BaseDbModelFromJson(Map<String, dynamic> json) => BaseDbModel(
-  createdAt: const CustomDateTimeFormatter().fromJson(
+  createdAt: const NullableDateTimeConverter().fromJson(
     json['created_at'] as String?,
   ),
-  updatedAt: const CustomDateTimeFormatter().fromJson(
+  updatedAt: const NullableDateTimeConverter().fromJson(
     json['updated_at'] as String?,
   ),
 );
 
-Map<String, dynamic> _$BaseDbModelToJson(BaseDbModel instance) =>
-    <String, dynamic>{
-      'created_at': const CustomDateTimeFormatter().toJson(instance.createdAt),
-      'updated_at': const CustomDateTimeFormatter().toJson(instance.updatedAt),
-    };
+Map<String, dynamic> _$BaseDbModelToJson(
+  BaseDbModel instance,
+) => <String, dynamic>{
+  'created_at': const NullableDateTimeConverter().toJson(instance.createdAt),
+  'updated_at': const NullableDateTimeConverter().toJson(instance.updatedAt),
+};

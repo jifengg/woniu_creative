@@ -94,7 +94,7 @@ class TimeConfig {
 
 /// 每日配置
 @JsonSerializable()
-@CustomDateTimeFormatter()
+@DateTimeConverter()
 class DailyTimeConfig extends TimeConfig {
   DailyTimeConfig({
     required super.periods,
@@ -110,7 +110,7 @@ class DailyTimeConfig extends TimeConfig {
 
 /// 每周配置
 @JsonSerializable()
-@CustomDateTimeFormatter()
+@DateTimeConverter()
 class WeeklyTimeConfig extends TimeConfig {
   final List<int> daysOfWeek;
 
@@ -133,7 +133,7 @@ class WeeklyTimeConfig extends TimeConfig {
 
 /// 每月配置
 @JsonSerializable()
-@CustomDateTimeFormatter()
+@DateTimeConverter()
 class MonthlyTimeConfig extends TimeConfig {
   final List<int> daysOfMonth;
 
@@ -156,7 +156,7 @@ class MonthlyTimeConfig extends TimeConfig {
 }
 
 @JsonSerializable()
-@CustomDateTimeFormatter()
+@DateTimeConverter()
 class YearlyTimeConfig extends TimeConfig {
   final List<MonthDay> monthDays;
 
@@ -188,7 +188,7 @@ class MonthDay {
 
 /// 自定义配置（使用具体日期时间对）
 @JsonSerializable()
-@CustomDateTimeFormatter()
+@DateTimeConverter()
 class CustomTimeConfig extends TimeConfig {
   @JsonKey(name: 'date_ranges')
   final List<DateTimeRange>? dateRanges;
@@ -207,7 +207,7 @@ class CustomTimeConfig extends TimeConfig {
 }
 
 @JsonSerializable()
-@CustomDateTimeFormatter()
+@DateTimeConverter()
 class DateTimeRange {
   final DateTime start;
   final DateTime end;

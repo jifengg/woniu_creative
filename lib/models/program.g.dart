@@ -16,17 +16,17 @@ Program _$ProgramFromJson(Map<String, dynamic> json) => Program(
           .toList(),
   priority: (json['priority'] as num?)?.toInt() ?? 1000,
   ownerId: (json['owner_id'] as num?)?.toInt(),
-  createdAt: const CustomDateTimeFormatter().fromJson(
+  createdAt: const NullableDateTimeConverter().fromJson(
     json['created_at'] as String?,
   ),
-  updatedAt: const CustomDateTimeFormatter().fromJson(
+  updatedAt: const NullableDateTimeConverter().fromJson(
     json['updated_at'] as String?,
   ),
 );
 
 Map<String, dynamic> _$ProgramToJson(Program instance) => <String, dynamic>{
-  'created_at': const CustomDateTimeFormatter().toJson(instance.createdAt),
-  'updated_at': const CustomDateTimeFormatter().toJson(instance.updatedAt),
+  'created_at': const NullableDateTimeConverter().toJson(instance.createdAt),
+  'updated_at': const NullableDateTimeConverter().toJson(instance.updatedAt),
   'owner_id': instance.ownerId,
   'id': instance.id,
   'program_name': instance.programName,

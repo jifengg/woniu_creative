@@ -69,7 +69,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         _deviceInfo,
         toEncodable: (value) {
           if (value is DateTime) {
-            return CustomDateTimeFormatter().toJson(value);
+            return DateTimeConverter().toJson(value);
           } else {
             try {
               return (value as dynamic)?.toJson();

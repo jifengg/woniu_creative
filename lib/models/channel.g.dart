@@ -15,17 +15,17 @@ Channel _$ChannelFromJson(Map<String, dynamic> json) => Channel(
           .toList() ??
       const [],
   ownerId: (json['owner_id'] as num?)?.toInt(),
-  createdAt: const CustomDateTimeFormatter().fromJson(
+  createdAt: const NullableDateTimeConverter().fromJson(
     json['created_at'] as String?,
   ),
-  updatedAt: const CustomDateTimeFormatter().fromJson(
+  updatedAt: const NullableDateTimeConverter().fromJson(
     json['updated_at'] as String?,
   ),
 );
 
 Map<String, dynamic> _$ChannelToJson(Channel instance) => <String, dynamic>{
-  'created_at': const CustomDateTimeFormatter().toJson(instance.createdAt),
-  'updated_at': const CustomDateTimeFormatter().toJson(instance.updatedAt),
+  'created_at': const NullableDateTimeConverter().toJson(instance.createdAt),
+  'updated_at': const NullableDateTimeConverter().toJson(instance.updatedAt),
   'owner_id': instance.ownerId,
   'id': instance.id,
   'channel_name': instance.channelName,

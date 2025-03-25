@@ -8,7 +8,7 @@ class Merchant extends BaseDbModel {
   final String name;
   final String username;
   @JsonKey(name: 'last_login')
-  @CustomDateTimeFormatter()
+  @DateTimeConverter()
   final DateTime? lastLogin;
 
   @JsonKey(name: 'password_hash')

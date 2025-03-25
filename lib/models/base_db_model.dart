@@ -9,12 +9,12 @@ class BaseDbModel {
 
   /// 创建时间
   @JsonKey(name: 'created_at')
-  @CustomDateTimeFormatter()
+  @NullableDateTimeConverter()
   final DateTime? createdAt;
 
   /// 更新时间
   @JsonKey(name: 'updated_at')
-  @CustomDateTimeFormatter()
+  @NullableDateTimeConverter()
   final DateTime? updatedAt;
 
   BaseDbModel({
