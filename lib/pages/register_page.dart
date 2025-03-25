@@ -30,7 +30,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   // 注册状态管理
   bool _isRegistering = false;
   bool _registrationFailed = false;
-  late Timer _retryTimer;
+  Timer? _retryTimer;
 
   bool autoRedirect = true;
 
@@ -87,7 +87,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   @override
   void dispose() {
-    _retryTimer.cancel();
+    _retryTimer?.cancel();
     super.dispose();
   }
 
