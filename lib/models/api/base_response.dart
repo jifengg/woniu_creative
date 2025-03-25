@@ -13,7 +13,7 @@ class BaseResponse {
   final String? message;
 
   /// 频道数据容器
-  final Object? data;
+  final dynamic data;
 
   BaseResponse({required this.code, this.message, this.data});
 

@@ -12,47 +12,24 @@ Device _$DeviceFromJson(Map<String, dynamic> json) => Device(
   deviceName: json['device_name'] as String?,
   channelId: (json['channel_id'] as num?)?.toInt(),
   deviceInfo: json['device_info'] as Map<String, dynamic>?,
-  isRegistered:
-      json['is_registered'] == null
-          ? false
-          : const BoolIntConverter().fromJson(
-            (json['is_registered'] as num).toInt(),
-          ),
+  isRegistered: json['is_registered'] as bool? ?? false,
   ownerId: (json['owner_id'] as num?)?.toInt(),
-  createdAt: _$JsonConverterFromJson<String, DateTime>(
-    json['created_at'],
-    const CustomDateTimeFormatter().fromJson,
+  createdAt: const CustomDateTimeFormatter().fromJson(
+    json['created_at'] as String?,
   ),
-  updatedAt: _$JsonConverterFromJson<String, DateTime>(
-    json['updated_at'],
-    const CustomDateTimeFormatter().fromJson,
+  updatedAt: const CustomDateTimeFormatter().fromJson(
+    json['updated_at'] as String?,
   ),
 );
 
 Map<String, dynamic> _$DeviceToJson(Device instance) => <String, dynamic>{
-  'created_at': _$JsonConverterToJson<String, DateTime>(
-    instance.createdAt,
-    const CustomDateTimeFormatter().toJson,
-  ),
-  'updated_at': _$JsonConverterToJson<String, DateTime>(
-    instance.updatedAt,
-    const CustomDateTimeFormatter().toJson,
-  ),
+  'created_at': const CustomDateTimeFormatter().toJson(instance.createdAt),
+  'updated_at': const CustomDateTimeFormatter().toJson(instance.updatedAt),
   'owner_id': instance.ownerId,
   'id': instance.id,
   'device_id': instance.deviceId,
   'device_name': instance.deviceName,
   'channel_id': instance.channelId,
   'device_info': instance.deviceInfo,
-  'is_registered': const BoolIntConverter().toJson(instance.isRegistered),
+  'is_registered': instance.isRegistered,
 };
-
-Value? _$JsonConverterFromJson<Json, Value>(
-  Object? json,
-  Value? Function(Json json) fromJson,
-) => json == null ? null : fromJson(json as Json);
-
-Json? _$JsonConverterToJson<Json, Value>(
-  Value? value,
-  Json? Function(Value value) toJson,
-) => value == null ? null : toJson(value);

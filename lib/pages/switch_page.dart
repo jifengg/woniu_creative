@@ -23,8 +23,7 @@ class _SwitchPageState extends State<SwitchPage> {
               Wrap(
                 children: [
                   getCard('广告展示', () {
-                    //
-                    Navigator.of(context).pushNamed('/display');
+                    Navigator.of(context).pushNamed('/register');
                   }),
                   getCard('广告管理', () {
                     //

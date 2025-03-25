@@ -12,14 +12,14 @@ DailyTimeConfig _$DailyTimeConfigFromJson(Map<String, dynamic> json) =>
           (json['periods'] as List<dynamic>)
               .map((e) => Period.fromJson(e as Map<String, dynamic>))
               .toList(),
-      start: const CustomDateTimeFormatter().fromJson(json['start'] as String),
-      end: const CustomDateTimeFormatter().fromJson(json['end'] as String),
+      start: DateTime.parse(json['start'] as String),
+      end: DateTime.parse(json['end'] as String),
     );
 
 Map<String, dynamic> _$DailyTimeConfigToJson(DailyTimeConfig instance) =>
     <String, dynamic>{
-      'start': const CustomDateTimeFormatter().toJson(instance.start),
-      'end': const CustomDateTimeFormatter().toJson(instance.end),
+      'start': instance.start.toIso8601String(),
+      'end': instance.end.toIso8601String(),
       'periods': instance.periods,
     };
 
@@ -33,14 +33,14 @@ WeeklyTimeConfig _$WeeklyTimeConfigFromJson(Map<String, dynamic> json) =>
           (json['periods'] as List<dynamic>)
               .map((e) => Period.fromJson(e as Map<String, dynamic>))
               .toList(),
-      start: const CustomDateTimeFormatter().fromJson(json['start'] as String),
-      end: const CustomDateTimeFormatter().fromJson(json['end'] as String),
+      start: DateTime.parse(json['start'] as String),
+      end: DateTime.parse(json['end'] as String),
     );
 
 Map<String, dynamic> _$WeeklyTimeConfigToJson(WeeklyTimeConfig instance) =>
     <String, dynamic>{
-      'start': const CustomDateTimeFormatter().toJson(instance.start),
-      'end': const CustomDateTimeFormatter().toJson(instance.end),
+      'start': instance.start.toIso8601String(),
+      'end': instance.end.toIso8601String(),
       'periods': instance.periods,
       'daysOfWeek': instance.daysOfWeek,
     };
@@ -55,14 +55,14 @@ MonthlyTimeConfig _$MonthlyTimeConfigFromJson(Map<String, dynamic> json) =>
           (json['periods'] as List<dynamic>)
               .map((e) => Period.fromJson(e as Map<String, dynamic>))
               .toList(),
-      start: const CustomDateTimeFormatter().fromJson(json['start'] as String),
-      end: const CustomDateTimeFormatter().fromJson(json['end'] as String),
+      start: DateTime.parse(json['start'] as String),
+      end: DateTime.parse(json['end'] as String),
     );
 
 Map<String, dynamic> _$MonthlyTimeConfigToJson(MonthlyTimeConfig instance) =>
     <String, dynamic>{
-      'start': const CustomDateTimeFormatter().toJson(instance.start),
-      'end': const CustomDateTimeFormatter().toJson(instance.end),
+      'start': instance.start.toIso8601String(),
+      'end': instance.end.toIso8601String(),
       'periods': instance.periods,
       'daysOfMonth': instance.daysOfMonth,
     };
@@ -77,14 +77,14 @@ YearlyTimeConfig _$YearlyTimeConfigFromJson(Map<String, dynamic> json) =>
           (json['periods'] as List<dynamic>)
               .map((e) => Period.fromJson(e as Map<String, dynamic>))
               .toList(),
-      start: const CustomDateTimeFormatter().fromJson(json['start'] as String),
-      end: const CustomDateTimeFormatter().fromJson(json['end'] as String),
+      start: DateTime.parse(json['start'] as String),
+      end: DateTime.parse(json['end'] as String),
     );
 
 Map<String, dynamic> _$YearlyTimeConfigToJson(YearlyTimeConfig instance) =>
     <String, dynamic>{
-      'start': const CustomDateTimeFormatter().toJson(instance.start),
-      'end': const CustomDateTimeFormatter().toJson(instance.end),
+      'start': instance.start.toIso8601String(),
+      'end': instance.end.toIso8601String(),
       'periods': instance.periods,
       'monthDays': instance.monthDays,
     };
@@ -109,26 +109,26 @@ CustomTimeConfig _$CustomTimeConfigFromJson(Map<String, dynamic> json) =>
           (json['periods'] as List<dynamic>)
               .map((e) => Period.fromJson(e as Map<String, dynamic>))
               .toList(),
-      start: const CustomDateTimeFormatter().fromJson(json['start'] as String),
-      end: const CustomDateTimeFormatter().fromJson(json['end'] as String),
+      start: DateTime.parse(json['start'] as String),
+      end: DateTime.parse(json['end'] as String),
     );
 
 Map<String, dynamic> _$CustomTimeConfigToJson(CustomTimeConfig instance) =>
     <String, dynamic>{
-      'start': const CustomDateTimeFormatter().toJson(instance.start),
-      'end': const CustomDateTimeFormatter().toJson(instance.end),
+      'start': instance.start.toIso8601String(),
+      'end': instance.end.toIso8601String(),
       'periods': instance.periods,
       'date_ranges': instance.dateRanges,
     };
 
 DateTimeRange _$DateTimeRangeFromJson(Map<String, dynamic> json) =>
     DateTimeRange(
-      start: const CustomDateTimeFormatter().fromJson(json['start'] as String),
-      end: const CustomDateTimeFormatter().fromJson(json['end'] as String),
+      start: DateTime.parse(json['start'] as String),
+      end: DateTime.parse(json['end'] as String),
     );
 
 Map<String, dynamic> _$DateTimeRangeToJson(DateTimeRange instance) =>
     <String, dynamic>{
-      'start': const CustomDateTimeFormatter().toJson(instance.start),
-      'end': const CustomDateTimeFormatter().toJson(instance.end),
+      'start': instance.start.toIso8601String(),
+      'end': instance.end.toIso8601String(),
     };

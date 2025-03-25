@@ -12,45 +12,23 @@ Merchant _$MerchantFromJson(Map<String, dynamic> json) => Merchant(
   username: json['username'] as String,
   passwordHash: json['password_hash'] as String? ?? '',
   salt: json['salt'] as String? ?? '',
-  lastLogin: _$JsonConverterFromJson<String, DateTime>(
-    json['last_login'],
-    const CustomDateTimeFormatter().fromJson,
+  lastLogin: const CustomDateTimeFormatter().fromJson(
+    json['last_login'] as String?,
   ),
-  createdAt: _$JsonConverterFromJson<String, DateTime>(
-    json['created_at'],
-    const CustomDateTimeFormatter().fromJson,
+  createdAt: const CustomDateTimeFormatter().fromJson(
+    json['created_at'] as String?,
   ),
-  updatedAt: _$JsonConverterFromJson<String, DateTime>(
-    json['updated_at'],
-    const CustomDateTimeFormatter().fromJson,
+  updatedAt: const CustomDateTimeFormatter().fromJson(
+    json['updated_at'] as String?,
   ),
 );
 
 Map<String, dynamic> _$MerchantToJson(Merchant instance) => <String, dynamic>{
-  'created_at': _$JsonConverterToJson<String, DateTime>(
-    instance.createdAt,
-    const CustomDateTimeFormatter().toJson,
-  ),
-  'updated_at': _$JsonConverterToJson<String, DateTime>(
-    instance.updatedAt,
-    const CustomDateTimeFormatter().toJson,
-  ),
+  'created_at': const CustomDateTimeFormatter().toJson(instance.createdAt),
+  'updated_at': const CustomDateTimeFormatter().toJson(instance.updatedAt),
   'id': instance.id,
   'name': instance.name,
   'username': instance.username,
-  'last_login': _$JsonConverterToJson<String, DateTime>(
-    instance.lastLogin,
-    const CustomDateTimeFormatter().toJson,
-  ),
+  'last_login': const CustomDateTimeFormatter().toJson(instance.lastLogin),
   'password_hash': instance.passwordHash,
 };
-
-Value? _$JsonConverterFromJson<Json, Value>(
-  Object? json,
-  Value? Function(Json json) fromJson,
-) => json == null ? null : fromJson(json as Json);
-
-Json? _$JsonConverterToJson<Json, Value>(
-  Value? value,
-  Json? Function(Value value) toJson,
-) => value == null ? null : toJson(value);

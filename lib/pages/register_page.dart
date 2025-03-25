@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
@@ -8,7 +9,9 @@ import 'dart:async';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:woniu_creative/api/api.dart';
 import 'package:woniu_creative/global.dart';
+import 'package:woniu_creative/models/models.dart';
 import 'package:woniu_creative/utils/deivce_id.dart';
+import 'package:woniu_creative/utils/logger_utils.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -22,11 +25,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   String _deviceModel = '获取中...';
   String _osVersion = '获取中...';
   String _networkStatus = '获取中...';
+  Map<String, dynamic> _deviceInfo = {};
 
   // 注册状态管理
   bool _isRegistering = false;
   bool _registrationFailed = false;
   late Timer _retryTimer;
+
+  bool autoRedirect = true;
 
   Future? initFuture;
 
@@ -44,16 +50,36 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       var info = (await diplugin.webBrowserInfo);
       _deviceModel = info.browserName.name;
       _osVersion = info.appVersion ?? '';
+      _deviceInfo = info.data;
     } else {
       if (Platform.isAndroid) {
         var info = await diplugin.androidInfo;
         _deviceModel = info.model;
+        _deviceInfo = info.data;
       } else if (Platform.isWindows) {
         var info = await diplugin.windowsInfo;
         _deviceModel = info.productName;
         _osVersion = info.displayVersion;
+        _deviceInfo = info.data;
       }
     }
+    // 将deviceInfo中无法转换成json的处理一下
+    _deviceInfo = jsonDecode(
+      jsonEncode(
+        _deviceInfo,
+        toEncodable: (value) {
+          if (value is DateTime) {
+            return CustomDateTimeFormatter().toJson(value);
+          } else {
+            try {
+              return (value as dynamic)?.toJson();
+            } catch (e) {
+              return value?.toString();
+            }
+          }
+        },
+      ),
+    );
     _networkStatus = 'Wi-Fi 已连接';
     _startRegistration();
     setState(() {});
@@ -68,11 +94,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   void _startRegistration() async {
     setState(() => _isRegistering = true);
     try {
-      var registerData = await register(_machineCode);
-      if (registerData.isRegistered) {
+      var regRes = await register(_machineCode, _deviceModel, _deviceInfo);
+      if (regRes.data?.isRegistered == true) {
         //注册成功
         setState(() {
           _isRegistering = false;
+          Navigator.of(context).popAndPushNamed('/display');
         });
       } else {
         //未注册
@@ -80,6 +107,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         _startRegistration();
       }
     } catch (e) {
+      error('注册时发生异常', e);
       // 出错
       setState(() {
         _isRegistering = false;

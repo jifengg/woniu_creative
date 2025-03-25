@@ -15,26 +15,18 @@ MaterialInfo _$MaterialInfoFromJson(Map<String, dynamic> json) => MaterialInfo(
   content: json['content'] as String?,
   fileExtension: json['file_extension'] as String?,
   ownerId: (json['owner_id'] as num?)?.toInt(),
-  createdAt: _$JsonConverterFromJson<String, DateTime>(
-    json['created_at'],
-    const CustomDateTimeFormatter().fromJson,
+  createdAt: const CustomDateTimeFormatter().fromJson(
+    json['created_at'] as String?,
   ),
-  updatedAt: _$JsonConverterFromJson<String, DateTime>(
-    json['updated_at'],
-    const CustomDateTimeFormatter().fromJson,
+  updatedAt: const CustomDateTimeFormatter().fromJson(
+    json['updated_at'] as String?,
   ),
 );
 
 Map<String, dynamic> _$MaterialInfoToJson(MaterialInfo instance) =>
     <String, dynamic>{
-      'created_at': _$JsonConverterToJson<String, DateTime>(
-        instance.createdAt,
-        const CustomDateTimeFormatter().toJson,
-      ),
-      'updated_at': _$JsonConverterToJson<String, DateTime>(
-        instance.updatedAt,
-        const CustomDateTimeFormatter().toJson,
-      ),
+      'created_at': const CustomDateTimeFormatter().toJson(instance.createdAt),
+      'updated_at': const CustomDateTimeFormatter().toJson(instance.updatedAt),
       'owner_id': instance.ownerId,
       'id': instance.id,
       'type': _$MaterialTypesEnumMap[instance.type]!,
@@ -52,13 +44,3 @@ const _$MaterialTypesEnumMap = {
   MaterialTypes.audio: 4,
   MaterialTypes.link: 5,
 };
-
-Value? _$JsonConverterFromJson<Json, Value>(
-  Object? json,
-  Value? Function(Json json) fromJson,
-) => json == null ? null : fromJson(json as Json);
-
-Json? _$JsonConverterToJson<Json, Value>(
-  Value? value,
-  Json? Function(Value value) toJson,
-) => value == null ? null : toJson(value);
