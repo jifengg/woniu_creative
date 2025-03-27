@@ -10,6 +10,33 @@ import '../models/api/base_response.dart';
 String baseUrl =
     kDebugMode ? 'http://127.0.0.1:7780/api/' : 'http://127.0.0.1:7781/api/';
 
+String _token = 'no-token';
+
+Dio? _dio;
+Dio get dio {
+  _dio ??= Dio(
+    BaseOptions(
+      baseUrl: baseUrl,
+      headers: {
+        'Authorization': 'Bearer $_token',
+        'Content-Type': 'application/json',
+      },
+    ),
+  );
+  return _dio!;
+}
+
+update({String? base, String? token}) {
+  if (base != null) {
+    baseUrl = base;
+    dio.options.baseUrl = baseUrl;
+  }
+  if (token != null) {
+    _token = token;
+    dio.options.headers['Authorization'] = 'Bearer $_token';
+  }
+}
+
 T convert2BaseResponse<T extends BaseResponse>(Response<dynamic> res) {
   if (res.statusCode == 200) {
     if (T == RegisterResponse) {
@@ -32,7 +59,6 @@ Future<T> get<T extends BaseResponse>(
   String path, {
   Map<String, dynamic>? queryParameters,
 }) async {
-  var dio = Dio(BaseOptions(baseUrl: baseUrl));
   var res = await dio.get(path, queryParameters: queryParameters);
   return convert2BaseResponse<T>(res);
 }
@@ -42,11 +68,31 @@ Future<T> post<T extends BaseResponse>(
   Map<String, dynamic>? queryParameters,
   Object? data,
 }) async {
-  var dio = Dio(BaseOptions(baseUrl: baseUrl));
   var res = await dio.post(
     path,
     queryParameters: queryParameters,
     data: jsonEncode(data),
   );
+  return convert2BaseResponse<T>(res);
+}
+
+Future<T> put<T extends BaseResponse>(
+  String path, {
+  Map<String, dynamic>? queryParameters,
+  Object? data,
+}) async {
+  var res = await dio.put(
+    path,
+    queryParameters: queryParameters,
+    data: jsonEncode(data),
+  );
+  return convert2BaseResponse<T>(res);
+}
+
+Future<T> delete<T extends BaseResponse>(
+  String path, {
+  Map<String, dynamic>? queryParameters,
+}) async {
+  var res = await dio.delete(path, queryParameters: queryParameters);
   return convert2BaseResponse<T>(res);
 }
