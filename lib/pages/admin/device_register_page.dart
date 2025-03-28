@@ -68,6 +68,11 @@ class _DeviceRegisterPageState extends State<DeviceRegisterPage>
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
+            Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [Icon(Icons.info), Text('打开设备的注册界面可以看到设备注册码及二维码')],
+            ),
+            SizedBox(height: 20),
             TextFormField(
               controller: _codeController,
               decoration: InputDecoration(

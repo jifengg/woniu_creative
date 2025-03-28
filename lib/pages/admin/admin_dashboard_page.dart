@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:woniu_creative/widgets/state_extension.dart';
 
@@ -6,34 +8,47 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          GridView.count(
-            crossAxisCount: context.isPC ? 3 : 2,
-            shrinkWrap: true,
-            mainAxisSpacing: 16,
-            crossAxisSpacing: 16,
-            childAspectRatio: 1.5,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        var count = (constraints.maxWidth / 180).floor();
+        count = max(1, min(count, context.isPC ? 4 : 3));
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildFeatureCard(
-                context,
-                title: '设备注册',
-                icon: Icons.qr_code,
-                onTap: () => Navigator.pushNamed(context, '/device/register'),
-              ),
-              _buildFeatureCard(
-                context,
-                title: '创建角色',
-                icon: Icons.people,
-                onTap: () => Navigator.pushNamed(context, '/roles-1'),
+              GridView.count(
+                crossAxisCount: count,
+                shrinkWrap: true,
+                mainAxisSpacing: 16,
+                crossAxisSpacing: 16,
+                childAspectRatio: 1.5,
+                children: [
+                  _buildFeatureCard(
+                    context,
+                    title: '设备注册',
+                    icon: Icons.qr_code,
+                    onTap:
+                        () => Navigator.pushNamed(context, '/device/register'),
+                  ),
+                  _buildFeatureCard(
+                    context,
+                    title: '创建角色',
+                    icon: Icons.people,
+                    onTap: () => Navigator.pushNamed(context, '/roles-1'),
+                  ),
+                  _buildFeatureCard(
+                    context,
+                    title: '频道管理',
+                    icon: Icons.list,
+                    onTap: () => Navigator.pushNamed(context, '/channel/list'),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 

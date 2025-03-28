@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:woniu_creative/pages/admin/admin_dashboard_page.dart';
+import 'package:woniu_creative/pages/admin/channel_list_page.dart';
 import 'package:woniu_creative/pages/admin/device_register_page.dart';
 import 'package:woniu_creative/widgets/state_extension.dart';
 import 'package:provider/provider.dart';
@@ -41,6 +42,13 @@ class _AdminHomePageState extends State<AdminHomePage> {
       ],
     ),
     MenuItem(
+      title: '频道管理',
+      icon: Icons.devices,
+      children: [
+        MenuItem(title: '频道列表', route: '/channel/list', icon: Icons.list),
+      ],
+    ),
+    MenuItem(
       title: '系统设置',
       icon: Icons.settings,
       children: [
@@ -57,6 +65,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
     '/settings/basic': (context) => BasicSettingsPage(),
     '/settings/advanced': (context) => AdvancedSettingsPage(),
     '/device/register': (context) => const DeviceRegisterPage(),
+    '/channel/list': (context) => const ChannelListPage(),
   };
 
   /// 将菜单的树结构反转，能通过叶子节点快速找到所有父节点
@@ -143,6 +152,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
   Widget _buildNavMenu() {
     return Drawer(
+      width: 222,
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
