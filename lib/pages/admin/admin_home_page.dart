@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:woniu_creative/pages/admin/admin_dashboard_page.dart';
 import 'package:woniu_creative/pages/admin/channel_list_page.dart';
 import 'package:woniu_creative/pages/admin/device_register_page.dart';
+import 'package:woniu_creative/utils/logger_utils.dart';
 import 'package:woniu_creative/widgets/state_extension.dart';
 import 'package:provider/provider.dart';
 
@@ -86,6 +87,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
   void _genRouteListener() {
     var dashboardRoute = context.read<DashboardRoute>();
     dashboardRoute.addListener(() {
+      debug('路由变化：${dashboardRoute.lastRoute} -> ${dashboardRoute.route}');
+      if (dashboardRoute.route == dashboardRoute.lastRoute) return;
       // 更新菜单选中状态和展开状态
       var list = _menuReverseTreeChildToParent[dashboardRoute.lastRoute];
       if (list != null) {
@@ -101,6 +104,9 @@ class _AdminHomePageState extends State<AdminHomePage> {
         }
       }
       if (!isPC) setState(() {});
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _innerNavigatorKey.currentState?.pushReplacementNamed('/dashboard');
     });
   }
 
@@ -131,13 +137,14 @@ class _AdminHomePageState extends State<AdminHomePage> {
               )
               : null,
       endDrawer: !isPC ? _buildNavMenu() : null,
+      // : Drawer(child: Text(DateTime.now().toString())),
       body: Row(
         children: [
           if (isPC) _buildNavMenu(),
           Expanded(
             child: Navigator(
               key: _innerNavigatorKey,
-              initialRoute: '/dashboard',
+              // initialRoute: '/dashboard',
               onGenerateRoute: (settings) {
                 return MaterialPageRoute(
                   builder: (context) => _buildContent(context, settings.name!),
@@ -172,7 +179,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
           Expanded(
             child: Center(
               child: Text(
-                '控制台',
+                '控制台' + DateTime.now().toString(),
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
             ),
@@ -242,15 +249,15 @@ class _AdminHomePageState extends State<AdminHomePage> {
   }
 
   Widget _buildContent(BuildContext context, String route) {
-    final pageBuilder = _routeMap[route];
-    if (pageBuilder == null) {
-      return Center(child: Text('页面未找到'));
-    }
-    // // 在下一帧更新当前选中的路由
+    // 在下一帧更新当前选中的路由
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       var routeState = context.read<DashboardRoute>();
       routeState.changeRoute(route);
     });
+    final pageBuilder = _routeMap[route];
+    if (pageBuilder == null) {
+      return Center(child: Text('页面未找到'));
+    }
     return pageBuilder(context);
   }
 }
@@ -302,6 +309,8 @@ class DashboardRoute extends ChangeNotifier {
 }
 
 class UsersPage extends StatelessWidget {
+  const UsersPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -320,6 +329,8 @@ class UsersPage extends StatelessWidget {
 }
 
 class RolesPage extends StatelessWidget {
+  const RolesPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -338,6 +349,8 @@ class RolesPage extends StatelessWidget {
 }
 
 class BasicSettingsPage extends StatelessWidget {
+  const BasicSettingsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -351,6 +364,8 @@ class BasicSettingsPage extends StatelessWidget {
 }
 
 class AdvancedSettingsPage extends StatelessWidget {
+  const AdvancedSettingsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
