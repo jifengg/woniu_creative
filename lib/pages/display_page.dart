@@ -53,7 +53,8 @@ class _DisplayPageState extends State<DisplayPage> {
       if (channel != null && channel!.programs != null) {
         for (var i = 0; i < channel!.programs!.length; i++) {
           var program = channel!.programs![i];
-          if (program.timeConfig.isTimeMatch(now)) {
+          if (program.timeConfig != null &&
+              program.timeConfig!.isTimeMatch(now)) {
             if (topP == null || topP.priority < program.priority) {
               topP = program;
               index = i;

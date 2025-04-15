@@ -9,7 +9,10 @@ part of 'program.dart';
 Program _$ProgramFromJson(Map<String, dynamic> json) => Program(
   id: (json['id'] as num?)?.toInt(),
   programName: json['program_name'] as String,
-  timeConfig: TimeConfig.fromJson(json['time_config'] as Map<String, dynamic>),
+  timeConfig:
+      json['time_config'] == null
+          ? null
+          : TimeConfig.fromJson(json['time_config'] as Map<String, dynamic>),
   layers:
       (json['layers'] as List<dynamic>?)
           ?.map((e) => Layer.fromJson(e as Map<String, dynamic>))

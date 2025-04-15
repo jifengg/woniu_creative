@@ -16,7 +16,7 @@ class Program extends BaseOwnerModel {
 
   /// 时间配置
   @JsonKey(name: 'time_config')
-  final TimeConfig timeConfig;
+  final TimeConfig? timeConfig;
 
   /// 节目的优先级，数值越大表示优先级越高
   final int priority;
@@ -27,7 +27,7 @@ class Program extends BaseOwnerModel {
   Program({
     this.id,
     required this.programName,
-    required this.timeConfig,
+    this.timeConfig,
     this.layers,
     this.priority = 1000,
     super.ownerId,

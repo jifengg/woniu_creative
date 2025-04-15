@@ -85,6 +85,11 @@ class TimeConfig {
     );
   }
 
+  @override
+  String toString() {
+    return '${start.toString().substring(0, 10)} ~ ${end.toString().substring(0, 10)}';
+  }
+
   static TimeConfig get everyDay => DailyTimeConfig(
     periods: [Period.allDay],
     start: DateTime(2000),
@@ -184,6 +189,21 @@ class MonthDay {
   factory MonthDay.fromJson(Map<String, dynamic> json) =>
       _$MonthDayFromJson(json);
   Map<String, dynamic> toJson() => _$MonthDayToJson(this);
+
+  @override
+  String toString() {
+    return '$month-$day';
+  }
+
+  factory MonthDay.parse(String str) {
+    final parts = str.split('-');
+    final month = int.parse(parts[0]);
+    final day = int.parse(parts[1]);
+    if (month < 1 || month > 12 || day < 1 || day > 31) {
+      throw FormatException('日期格式错误(m-d)：$str');
+    }
+    return MonthDay(month: month, day: day);
+  }
 }
 
 /// 自定义配置（使用具体日期时间对）
@@ -216,4 +236,9 @@ class DateTimeRange {
   factory DateTimeRange.fromJson(Map<String, dynamic> json) =>
       _$DateTimeRangeFromJson(json);
   Map<String, dynamic> toJson() => _$DateTimeRangeToJson(this);
+
+  @override
+  String toString() {
+    return '${start.toString().substring(0, 10)} ~ ${end.toString().substring(0, 10)}';
+  }
 }

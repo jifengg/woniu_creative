@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:woniu_creative/models/models.dart';
+import 'package:woniu_creative/pages/admin/channel_programs_page.dart';
 import 'package:woniu_creative/widgets/state_extension.dart';
 
 import 'channel_devices_page.dart';
@@ -12,7 +13,8 @@ class ChannelListPage extends StatefulWidget {
   State<ChannelListPage> createState() => _ChannelListPageState();
 }
 
-class _ChannelListPageState extends State<ChannelListPage> with AutomaticKeepAliveClientMixin {
+class _ChannelListPageState extends State<ChannelListPage>
+    with AutomaticKeepAliveClientMixin {
   List<Channel> _channels = [];
   bool _isLoading = false;
 
@@ -26,7 +28,7 @@ class _ChannelListPageState extends State<ChannelListPage> with AutomaticKeepAli
     setState(() => _isLoading = true);
     try {
       // 模拟API请求
-      await Future.delayed(Duration(seconds: 1));
+      // await Future.delayed(Duration(seconds: 1));
       _channels = [
         Channel(id: 1, channelName: '新闻频道' * 7),
         Channel(id: 2, channelName: '娱乐频道'),
@@ -53,6 +55,14 @@ class _ChannelListPageState extends State<ChannelListPage> with AutomaticKeepAli
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => ChannelDevicesPage(channelId: channelId),
+      ),
+    );
+  }
+
+  void _viewPrograms(int channelId) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ChannelProgramsPage(channelId: channelId),
       ),
     );
   }
@@ -167,7 +177,7 @@ class _ChannelListPageState extends State<ChannelListPage> with AutomaticKeepAli
         IconButton(
           icon: Icon(Icons.play_circle_outline),
           tooltip: '节目管理',
-          onPressed: () => _viewDevices(channel.id!),
+          onPressed: () => _viewPrograms(channel.id!),
         ),
         IconButton(
           icon: Icon(Icons.edit_outlined),
@@ -186,7 +196,7 @@ class _ChannelListPageState extends State<ChannelListPage> with AutomaticKeepAli
   void _deleteChannel(int channelId) async {
     setState(() => _channels.removeWhere((c) => c.id == channelId));
   }
-  
+
   @override
   bool get wantKeepAlive => true;
 }

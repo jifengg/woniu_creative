@@ -29,7 +29,7 @@ class DashboardPage extends StatelessWidget {
                     title: '设备注册',
                     icon: Icons.qr_code,
                     onTap:
-                        () => Navigator.pushNamed(context, '/device/register'),
+                        () => Navigator.popAndPushNamed(context, '/device/register'),
                   ),
                   _buildFeatureCard(
                     context,

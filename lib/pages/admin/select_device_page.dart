@@ -56,24 +56,26 @@ class _SelectDevicesPageState extends State<SelectDevicesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('选择设备'),
-        actions: [
-          TextButton(
-            onPressed:
-                _selectedDevices.isNotEmpty
-                    ? () => Navigator.pop(context, _selectedDevices)
-                    : null,
-            child: Text('确认'),
+      appBar: AppBar(title: Text('选择设备')),
+      body: Column(
+        children: [
+          Expanded(
+            child:
+                _isLoading
+                    ? Center(child: CircularProgressIndicator())
+                    : isPC
+                    ? _buildTable()
+                    : _buildList(),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: ElevatedButton(
+              onPressed: () => Navigator.pop(context, _selectedDevices),
+              child: Padding(padding: EdgeInsets.all(8.0), child: Text('确定')),
+            ),
           ),
         ],
       ),
-      body:
-          _isLoading
-              ? Center(child: CircularProgressIndicator())
-              : isPC
-              ? _buildTable()
-              : _buildList(),
     );
   }
 

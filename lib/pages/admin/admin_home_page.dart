@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:woniu_creative/pages/admin/admin_dashboard_page.dart';
@@ -100,13 +99,11 @@ class _AdminHomePageState extends State<AdminHomePage> {
         for (var i = 1; i < list.length; i++) {
           var item = list[i];
           item.expanded = true;
-          if (isPC) item.controller?.expand();
         }
       }
-      if (!isPC) setState(() {});
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _innerNavigatorKey.currentState?.pushReplacementNamed('/dashboard');
+      _innerNavigatorKey.currentState?.popAndPushNamed(dashboardRoute.route);
     });
   }
 
@@ -137,17 +134,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
               )
               : null,
       endDrawer: !isPC ? _buildNavMenu() : null,
-      // : Drawer(child: Text(DateTime.now().toString())),
       body: Row(
         children: [
           if (isPC) _buildNavMenu(),
           Expanded(
             child: Navigator(
               key: _innerNavigatorKey,
-              // initialRoute: '/dashboard',
+              // initialRoute: dashboardRoute.route,
               onGenerateRoute: (settings) {
                 return MaterialPageRoute(
                   builder: (context) => _buildContent(context, settings.name!),
+                  settings: settings,
                 );
               },
             ),
@@ -158,15 +155,19 @@ class _AdminHomePageState extends State<AdminHomePage> {
   }
 
   Widget _buildNavMenu() {
-    return Drawer(
-      width: 222,
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          _buildHeader(),
-          ..._menuItems.map((item) => _buildMenuItem(item)),
-        ],
-      ),
+    return Consumer<DashboardRoute>(
+      builder: (context, value, child) {
+        return Drawer(
+          width: 222,
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              _buildHeader(),
+              ..._menuItems.map((item) => _buildMenuItem(item)),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -179,7 +180,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
           Expanded(
             child: Center(
               child: Text(
-                '控制台' + DateTime.now().toString(),
+                '控制台',
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
             ),
@@ -210,8 +211,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
   Widget _buildMenuItem(MenuItem item) {
     if (item.children.isNotEmpty) {
-      item.controller ??= ExpansionTileController();
+      // item.controller ??= ExpansionTileController();
       return ExpansionTile(
+        // 这里使用Globalkey是为了state更新的时候，不使用缓存，使initiallyExpanded能生效
+        key: GlobalKey(),
         leading: Icon(item.icon),
         title: Text(item.title),
         iconColor: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -219,32 +222,27 @@ class _AdminHomePageState extends State<AdminHomePage> {
         initiallyExpanded: item.expanded,
         // 必须设置为true，否则没展开的时候子菜单没有state，调用controller的时候会报错
         maintainState: true,
-        controller: item.controller,
+        // controller: ExpansionTileController(),
         onExpansionChanged: (value) {
           item.expanded = value;
-          if (!isPC) setState(() {});
+          // setState(() {});
         },
         children: item.children.map((child) => _buildMenuItem(child)).toList(),
       );
     }
-    item.selectedController = StreamController();
-    return StreamBuilder(
-      builder: (context, snapshot) {
-        return ListTile(
-          leading: Icon(item.icon),
-          title: Text(item.title),
-          selected: item.isSelected,
-          onTap: () => _handleMenuTap(item.route),
-        );
-      },
-      stream: item.selectedController!.stream,
+    // item.selectedController = StreamController();
+    return ListTile(
+      leading: Icon(item.icon),
+      title: Text(item.title),
+      selected: item.isSelected,
+      onTap: () => _handleMenuTap(item.route),
     );
   }
 
   void _handleMenuTap(String route) {
     var routeState = context.read<DashboardRoute>();
     if (routeState.route != route) {
-      _innerNavigatorKey.currentState?.pushReplacementNamed(route);
+      _innerNavigatorKey.currentState?.popAndPushNamed(route);
     }
   }
 
@@ -276,13 +274,13 @@ class MenuItem {
   set isSelected(bool value) {
     if (_isSelected != value) {
       _isSelected = value;
-      selectedController?.add(value);
+      // selectedController?.add(value);
     }
   }
 
-  ExpansionTileController? controller;
+  // ExpansionTileController? controller;
 
-  StreamController<bool>? selectedController;
+  // StreamController<bool>? selectedController;
 
   MenuItem({
     required this.title,

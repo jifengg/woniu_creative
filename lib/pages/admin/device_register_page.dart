@@ -32,7 +32,7 @@ class _DeviceRegisterPageState extends State<DeviceRegisterPage>
       try {
         // 模拟API调用
         await Future.delayed(Duration(seconds: 2));
-        if (_codeController.text == 'REGISTER-CODE-123456') {
+        if (_codeController.text == 'REGISTER-CODE-123456' && mounted) {
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text('设备注册成功')));

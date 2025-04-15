@@ -14,6 +14,7 @@ enum MaterialTypes {
   link;
 
   static Set<MaterialTypes> fileTypes = {image, video, audio};
+
   /// 是否是文件素材
   bool get isFileType => fileTypes.contains(this);
 }
@@ -37,5 +38,17 @@ enum TimeConfigType {
 
   /// 自定义
   @JsonValue(9)
-  custom,
+  custom;
+
+  static final nameMap = {
+    daily: '每天',
+    weekly: '每周',
+    monthly: '每月',
+    yearly: '每年',
+    custom: '自定义',
+  };
+
+  String getName() {
+    return nameMap[this] ?? name;
+  }
 }

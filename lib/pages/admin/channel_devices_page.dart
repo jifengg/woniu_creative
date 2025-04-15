@@ -28,7 +28,7 @@ class _ChannelDevicesPageState extends State<ChannelDevicesPage> {
     setState(() => _isLoading = true);
     try {
       // 模拟API请求
-      await Future.delayed(Duration(seconds: 1));
+      // await Future.delayed(Duration(seconds: 1));
       _devices = [
         Device(id: 1, deviceName: '设备1', deviceId: 'DEV001'),
         Device(id: 2, deviceName: '设备2', deviceId: 'DEV002'),
@@ -99,9 +99,15 @@ class _ChannelDevicesPageState extends State<ChannelDevicesPage> {
     return SingleChildScrollView(
       child: DataTable(
         columns: [
-          DataColumn(label: Text('设备ID')),
-          DataColumn(label: Text('设备名称'), columnWidth: FlexColumnWidth()),
-          DataColumn(label: Text('操作')),
+          DataColumn(
+            label: Text('ID'),
+            headingRowAlignment: MainAxisAlignment.center,
+          ),
+          DataColumn(label: Text('名称'), columnWidth: FlexColumnWidth()),
+          DataColumn(
+            label: Text('操作'),
+            headingRowAlignment: MainAxisAlignment.center,
+          ),
         ],
         rows:
             _devices
