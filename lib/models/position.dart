@@ -7,16 +7,16 @@ part 'position.g.dart';
 @JsonSerializable()
 class Position {
   /// X轴坐标百分比（0-100）
-  final double x;
+  double x;
 
   /// Y轴坐标百分比（0-100）
-  final double y;
+  double y;
 
   /// 宽度百分比（0-100）
-  final double w;
+  double w;
 
   /// 高度百分比（0-100）
-  final double h;
+  double h;
 
   Position({
     required this.x,
@@ -28,6 +28,11 @@ class Position {
   factory Position.fromJson(Map<String, dynamic> json) =>
       _$PositionFromJson(json);
   Map<String, dynamic> toJson() => _$PositionToJson(this);
+
+  @override
+  String toString() {
+    return 'x: $x, y: $y, w: $w, h: $h';
+  }
 
   static Position get fullscreen => Position(x: 0, y: 0, w: 1, h: 1);
   static Position get halfLeft => Position(x: 0, y: 0, w: 0.5, h: 1);

@@ -59,10 +59,10 @@ class _ChannelListPageState extends State<ChannelListPage>
     );
   }
 
-  void _viewPrograms(int channelId) {
+  void _viewPrograms(Channel channel) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => ChannelProgramsPage(channelId: channelId),
+        builder: (context) => ChannelProgramsPage(channel: channel),
       ),
     );
   }
@@ -177,7 +177,7 @@ class _ChannelListPageState extends State<ChannelListPage>
         IconButton(
           icon: Icon(Icons.play_circle_outline),
           tooltip: '节目管理',
-          onPressed: () => _viewPrograms(channel.id!),
+          onPressed: () => _viewPrograms(channel),
         ),
         IconButton(
           icon: Icon(Icons.edit_outlined),
@@ -185,7 +185,10 @@ class _ChannelListPageState extends State<ChannelListPage>
           onPressed: () => _navigateToEdit(channel),
         ),
         IconButton(
-          icon: Icon(Icons.delete_outlined, color: Colors.red),
+          icon: Icon(
+            Icons.delete_outlined,
+            color: Theme.of(context).colorScheme.error,
+          ),
           tooltip: '删除',
           onPressed: () => _deleteChannel(channel.id!),
         ),

@@ -10,7 +10,7 @@ class LayoutConfig {
   final Position position;
 
   @JsonKey(name: 'play_list')
-  final PlayList playList;
+  final PlayList? playList;
 
   /// 背景颜色（16进制颜色值）
   @JsonKey(name: 'background_color')
@@ -18,7 +18,7 @@ class LayoutConfig {
 
   LayoutConfig({
     required this.position,
-    required this.playList,
+    this.playList,
     this.backgroundColor,
   });
 

@@ -166,7 +166,7 @@ class _DisplayPageState extends State<DisplayPage> {
       children:
           list.map((item) {
             var p = item.position;
-            var l = item.playList;
+            var l = item.playList!;
             var bgc =
                 item.backgroundColor == null
                     ? null

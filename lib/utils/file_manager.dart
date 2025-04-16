@@ -61,8 +61,8 @@ class FileManager {
       }
       for (var l in p.layers!) {
         for (var lc in l.layoutConfigs) {
-          if (lc.playList.items != null) {
-            for (var i in lc.playList.items!) {
+          if (lc.playList?.items != null) {
+            for (var i in lc.playList!.items!) {
               if (i.material.type.isFileType) {
                 downloadFile(i.material);
               }

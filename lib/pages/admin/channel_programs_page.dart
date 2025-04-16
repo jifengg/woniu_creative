@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:woniu_creative/models/models.dart';
 import 'package:woniu_creative/pages/admin/program_edit_page.dart';
+import 'package:woniu_creative/pages/admin/program_layout_edit_page.dart';
 import 'package:woniu_creative/widgets/state_extension.dart';
 
 /// 频道关联节目页面
 class ChannelProgramsPage extends StatefulWidget {
-  final int channelId;
+  // final int channelId;
 
-  const ChannelProgramsPage({super.key, required this.channelId});
+  final Channel channel;
+
+  const ChannelProgramsPage({super.key, required this.channel});
 
   @override
   State<ChannelProgramsPage> createState() => _ChannelProgramsPageState();
@@ -16,6 +19,8 @@ class ChannelProgramsPage extends StatefulWidget {
 class _ChannelProgramsPageState extends State<ChannelProgramsPage> {
   List<Program> _programs = [];
   bool _isLoading = false;
+
+  Channel get channel => widget.channel;
 
   @override
   void initState() {
@@ -88,10 +93,21 @@ class _ChannelProgramsPageState extends State<ChannelProgramsPage> {
     }
   }
 
+  _navigateToLayout(Program program) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ProgramLayoutEditPage(program: program),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('节目列表')),
+      appBar: AppBar(
+        title: Text('节目列表 - ${channel.channelName} (${channel.id})'),
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -198,12 +214,21 @@ class _ChannelProgramsPageState extends State<ChannelProgramsPage> {
       mainAxisSize: MainAxisSize.min,
       children: [
         IconButton(
+          icon: Icon(Icons.grid_view),
+          tooltip: '布局管理',
+          onPressed: () => _navigateToLayout(program),
+        ),
+        IconButton(
           icon: Icon(Icons.edit_outlined),
           tooltip: '编辑',
           onPressed: () => _navigateToEdit(program),
         ),
         IconButton(
-          icon: Icon(Icons.delete),
+          icon: Icon(
+            Icons.delete_outlined,
+            color: Theme.of(context).colorScheme.error,
+          ),
+          tooltip: '删除',
           onPressed: () => _removeProgram(program),
         ),
       ],
