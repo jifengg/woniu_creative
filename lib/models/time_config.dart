@@ -241,4 +241,11 @@ class DateTimeRange {
   String toString() {
     return '${start.toString().substring(0, 10)} ~ ${end.toString().substring(0, 10)}';
   }
+
+  factory DateTimeRange.parse(String str) {
+    final parts = str.split('~');
+    final start = DateTime.parse(parts[0].trim());
+    final end = DateTime.parse(parts[1].trim());
+    return DateTimeRange(start: start, end: end);
+  }
 }

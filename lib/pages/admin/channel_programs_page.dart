@@ -75,11 +75,13 @@ class _ChannelProgramsPageState extends State<ChannelProgramsPage> {
 
     if (newP != null) {
       if (program == null) {
+        // todo 调用新增接口
         _programs.add(newP);
       } else {
+        // todo 调用更新接口
         var index = _programs.indexOf(program);
         if (index > -1) {
-          _programs.replaceRange(index, index, [newP]);
+          _programs.replaceRange(index, index + 1, [newP]);
         }
       }
       setState(() {});
