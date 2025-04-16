@@ -33,30 +33,32 @@ class _ChannelProgramsPageState extends State<ChannelProgramsPage> {
     try {
       // 模拟API请求
       // await Future.delayed(Duration(seconds: 1));
-      _programs = [
-        Program(id: 11, programName: '节目1'),
-        Program(
-          id: 12,
-          programName: '节目2',
-          priority: 999,
-          timeConfig: CustomTimeConfig(
-            periods: [],
-            start: DateTime(2000, 1, 1),
-            end: DateTime(2999),
-          ),
-        ),
-        Program(
-          id: 12,
-          programName: '节目3',
-          priority: 123,
-          timeConfig: WeeklyTimeConfig(
-            periods: [],
-            start: DateTime(2020, 1, 1),
-            end: DateTime(2134),
-            daysOfWeek: [3, 6],
-          ),
-        ),
-      ];
+      _programs =
+          channel.programs ??
+          [
+            Program(id: 11, programName: '节目1'),
+            Program(
+              id: 12,
+              programName: '节目2',
+              priority: 999,
+              timeConfig: CustomTimeConfig(
+                periods: [],
+                start: DateTime(2000, 1, 1),
+                end: DateTime(2999),
+              ),
+            ),
+            Program(
+              id: 12,
+              programName: '节目3',
+              priority: 123,
+              timeConfig: WeeklyTimeConfig(
+                periods: [],
+                start: DateTime(2020, 1, 1),
+                end: DateTime(2134),
+                daysOfWeek: [3, 6],
+              ),
+            ),
+          ];
     } finally {
       setState(() => _isLoading = false);
     }

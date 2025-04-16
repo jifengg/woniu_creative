@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:woniu_creative/api/mock.dart';
 import 'package:woniu_creative/models/models.dart';
 import 'package:woniu_creative/pages/admin/channel_programs_page.dart';
 import 'package:woniu_creative/widgets/state_extension.dart';
@@ -30,12 +31,14 @@ class _ChannelListPageState extends State<ChannelListPage>
       // 模拟API请求
       // await Future.delayed(Duration(seconds: 1));
       _channels = [
-        Channel(id: 1, channelName: '新闻频道' * 7),
-        Channel(id: 2, channelName: '娱乐频道'),
+        // Channel(id: 1, channelName: '新闻频道' * 7),
+        // Channel(id: 2, channelName: '娱乐频道'),
+        channel1,
+        channel2,
       ];
-      for (var i = 0; i < 4; i++) {
-        _channels += _channels;
-      }
+      // for (var i = 0; i < 4; i++) {
+      //   _channels += _channels;
+      // }
     } finally {
       setState(() => _isLoading = false);
     }

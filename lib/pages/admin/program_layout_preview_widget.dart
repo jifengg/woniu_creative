@@ -4,9 +4,15 @@ import 'package:woniu_creative/pages/play_list_page.dart';
 import 'package:woniu_creative/widgets/current_time_widget.dart';
 
 class ProgramLayoutPreviewWidget extends StatefulWidget {
-  const ProgramLayoutPreviewWidget({super.key, required this.program});
+  const ProgramLayoutPreviewWidget({
+    super.key,
+    required this.program,
+    this.editMode = true,
+  });
 
   final Program program;
+
+  final bool editMode;
 
   @override
   State<ProgramLayoutPreviewWidget> createState() =>
@@ -71,7 +77,9 @@ class _ProgramLayoutPreviewWidgetState
             var l = item.playList;
             var bgc =
                 item.backgroundColor == null
-                    ? Theme.of(context).colorScheme.outline
+                    ? (widget.editMode
+                        ? Theme.of(context).colorScheme.outline
+                        : null)
                     : Color(item.backgroundColor!);
             return Positioned(
               left: width(p.x),
@@ -80,8 +88,11 @@ class _ProgramLayoutPreviewWidgetState
               height: height(p.h),
               child: Container(
                 decoration: BoxDecoration(
-                  // color: bgc.withAlpha(64),
-                  border: Border.all(color: bgc, width: 3),
+                  color: widget.editMode ? null : bgc,
+                  border:
+                      widget.editMode
+                          ? Border.all(color: bgc!, width: 3)
+                          : null,
                 ),
                 child: l == null ? null : PlayListPage(playList: l),
               ),

@@ -22,6 +22,9 @@ class _ProgramLayoutEditPageState extends State<ProgramLayoutEditPage> {
 
   final Map<Layer, bool> _layerVisible = {};
 
+  var aspectRatioW = 16;
+  var aspectRatioH = 9;
+
   @override
   void initState() {
     super.initState();
@@ -71,12 +74,17 @@ class _ProgramLayoutEditPageState extends State<ProgramLayoutEditPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('预览'),
+        Row(
+          children: [
+            Text('预览（屏幕比例：$aspectRatioW:$aspectRatioH）'),
+            _buildFullscreenButton(),
+          ],
+        ),
         Expanded(
           child: Align(
             alignment: Alignment.topCenter,
             child: AspectRatio(
-              aspectRatio: 16 / 9,
+              aspectRatio: aspectRatioW.toDouble() / aspectRatioH.toDouble(),
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(
@@ -91,6 +99,45 @@ class _ProgramLayoutEditPageState extends State<ProgramLayoutEditPage> {
           ),
         ),
       ],
+    );
+  }
+
+  IconButton _buildFullscreenButton() {
+    return IconButton(
+      tooltip: '全屏',
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return Dialog.fullscreen(
+              child: Stack(
+                children: [
+                  Center(
+                    child: AspectRatio(
+                      aspectRatio:
+                          aspectRatioW.toDouble() / aspectRatioH.toDouble(),
+                      child: ProgramLayoutPreviewWidget(
+                        program: Program(programName: '', layers: layers),
+                        editMode: false,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    right: 0,
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(Icons.fullscreen_exit),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+      icon: Icon(Icons.fullscreen),
     );
   }
 
@@ -128,25 +175,25 @@ class _ProgramLayoutEditPageState extends State<ProgramLayoutEditPage> {
                     icon: Icon(Icons.format_line_spacing),
                   ),
                   Expanded(
-                    child: Center(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(l.layerName),
-                          IconButton(
-                            onPressed: () {
-                              setState(() {
-                                isExpanded = !isExpanded;
-                                _layerVisible[l] = isExpanded;
-                              });
-                            },
-                            icon: Icon(
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          isExpanded = !isExpanded;
+                          _layerVisible[l] = isExpanded;
+                        });
+                      },
+                      child: Center(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(l.layerName),
+                            Icon(
                               isExpanded
                                   ? Icons.expand_less
                                   : Icons.expand_more,
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
