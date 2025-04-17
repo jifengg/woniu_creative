@@ -43,6 +43,18 @@ class DashboardPage extends StatelessWidget {
                     icon: Icons.list,
                     onTap: () => Navigator.pushNamed(context, '/channel/list'),
                   ),
+                  _buildFeatureCard(
+                    context,
+                    title: '播放列表',
+                    icon: Icons.subscriptions_outlined,
+                    onTap: () => Navigator.pushNamed(context, '/playlist/list'),
+                  ),
+                  _buildFeatureCard(
+                    context,
+                    title: '素材管理',
+                    icon: Icons.description_outlined,
+                    onTap: () => Navigator.pushNamed(context, '/material/list'),
+                  ),
                 ],
               ),
             ],

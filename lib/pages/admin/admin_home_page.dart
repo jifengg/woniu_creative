@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:woniu_creative/pages/admin/admin_dashboard_page.dart';
 import 'package:woniu_creative/pages/admin/channel_list_page.dart';
 import 'package:woniu_creative/pages/admin/device_register_page.dart';
+import 'package:woniu_creative/pages/admin/material_list_page.dart';
+import 'package:woniu_creative/pages/admin/playlist_list_page.dart';
 import 'package:woniu_creative/utils/logger_utils.dart';
 import 'package:woniu_creative/widgets/state_extension.dart';
 import 'package:provider/provider.dart';
@@ -42,10 +44,12 @@ class _AdminHomePageState extends State<AdminHomePage> {
       ],
     ),
     MenuItem(
-      title: '频道管理',
-      icon: Icons.devices,
+      title: '内容管理',
+      icon: Icons.folder_outlined,
       children: [
-        MenuItem(title: '频道列表', route: '/channel/list', icon: Icons.list),
+        MenuItem(title: '频道管理', route: '/channel/list', icon: Icons.list),
+        MenuItem(title: '播放列表', route: '/playlist/list', icon: Icons.subscriptions_outlined),
+        MenuItem(title: '素材管理', route: '/material/list', icon: Icons.description_outlined),
       ],
     ),
     MenuItem(
@@ -66,6 +70,8 @@ class _AdminHomePageState extends State<AdminHomePage> {
     '/settings/advanced': (context) => AdvancedSettingsPage(),
     '/device/register': (context) => const DeviceRegisterPage(),
     '/channel/list': (context) => const ChannelListPage(),
+    '/playlist/list': (context) => const PlayListListPage(),
+    '/material/list': (context) => const MaterialListPage(),
   };
 
   /// 将菜单的树结构反转，能通过叶子节点快速找到所有父节点

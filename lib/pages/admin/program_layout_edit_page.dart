@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:woniu_creative/models/models.dart';
+import 'package:woniu_creative/pages/admin/playlist_list_page.dart';
 import 'package:woniu_creative/pages/admin/program_layout_preview_widget.dart';
 import 'package:woniu_creative/widgets/simple_dialog.dart';
 import 'package:woniu_creative/widgets/simple_table_view.dart';
@@ -75,6 +76,7 @@ class _ProgramLayoutEditPageState extends State<ProgramLayoutEditPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('预览（屏幕比例：$aspectRatioW:$aspectRatioH）'),
             _buildFullscreenButton(),
@@ -305,7 +307,7 @@ class _ProgramLayoutEditPageState extends State<ProgramLayoutEditPage> {
                     },
                   ),
                 ),
-                SimpleTableRowData('播放列表：', lc.playList?.id),
+                SimpleTableRowData('播放列表：', _buildPlaylistSelector(lc)),
                 SimpleTableRowData('背景色：', lc.backgroundColor),
               ],
             ),
@@ -359,6 +361,39 @@ class _ProgramLayoutEditPageState extends State<ProgramLayoutEditPage> {
           },
         ),
       ],
+    );
+  }
+
+  Widget _buildPlaylistSelector(LayoutConfig lc) {
+    return InkWell(
+      onTap: () {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          useRootNavigator: false,
+          builder: (context) {
+            return AlertDialog.adaptive(
+              title: Text('选择播放列表'),
+              content: PlayListListPage(),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('取消'),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    Navigator.pop(context);
+                  },
+                  child: Text('确定'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+      child: Text(lc.playList?.name ?? '<请选择>'),
     );
   }
 

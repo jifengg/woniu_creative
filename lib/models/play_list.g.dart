@@ -8,11 +8,14 @@ part of 'play_list.dart';
 
 PlayList _$PlayListFromJson(Map<String, dynamic> json) => PlayList(
   id: (json['id'] as num?)?.toInt(),
+  name: json['name'] as String? ?? 'playlist',
   items:
       (json['items'] as List<dynamic>?)
           ?.map((e) => PlayItem.fromJson(e as Map<String, dynamic>))
           .toList(),
-  playMode: (json['play_mode'] as num?)?.toInt() ?? 1,
+  playMode:
+      $enumDecodeNullable(_$PlayModeEnumMap, json['play_mode']) ??
+      PlayMode.order,
   defaultDelay: (json['default_delay'] as num?)?.toInt() ?? 3000,
   ownerId: (json['owner_id'] as num?)?.toInt(),
   createdAt: const NullableDateTimeConverter().fromJson(
@@ -28,7 +31,10 @@ Map<String, dynamic> _$PlayListToJson(PlayList instance) => <String, dynamic>{
   'updated_at': const NullableDateTimeConverter().toJson(instance.updatedAt),
   'owner_id': instance.ownerId,
   'id': instance.id,
+  'name': instance.name,
   'items': instance.items,
-  'play_mode': instance.playMode,
+  'play_mode': _$PlayModeEnumMap[instance.playMode]!,
   'default_delay': instance.defaultDelay,
 };
+
+const _$PlayModeEnumMap = {PlayMode.order: 1, PlayMode.random: 2};

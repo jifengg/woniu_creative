@@ -48,6 +48,56 @@ var materialsLink = [
   ),
 ];
 
+var playLists = [
+  PlayList(
+    id: 1,
+    name: '喜庆图片序列',
+    items: [
+      PlayItem(material: materialsImage[0]),
+      PlayItem(material: materialsImage[1], duration: 10000),
+    ],
+  ),
+  PlayList(id: 2, name: '外网链接', items: [PlayItem(material: materialsLink[1])]),
+  PlayList(
+    id: 3,
+    name: '文字内容',
+    items: [
+      PlayItem(
+        material: MaterialInfo(
+          id: 1002,
+          type: MaterialTypes.text,
+          version: 1,
+          content: "标题1",
+        ),
+      ),
+      PlayItem(
+        material: MaterialInfo(
+          id: 1012,
+          version: 1,
+          type: MaterialTypes.text,
+          content: "这是另一个标题",
+        ),
+      ),
+    ],
+  ),
+  PlayList(id: 4, name: '一张图片', items: [PlayItem(material: materialsImage[1])]),
+  PlayList(id: 5, name: '一个视频', items: [PlayItem(material: materialsVideo[0])]),
+  PlayList(
+    id: 6,
+    name: '文字内容2',
+    items: [
+      PlayItem(
+        material: MaterialInfo(
+          id: 33,
+          type: MaterialTypes.text,
+          version: 1,
+          content: "现在是节目2",
+        ),
+      ),
+    ],
+  ),
+];
+
 var channel1 = Channel(
   id: 1,
   channelName: "测试频道1",
@@ -64,12 +114,7 @@ var channel1 = Channel(
           layoutConfigs: [
             LayoutConfig(
               position: Position(x: 0, y: 0, w: 1, h: 1),
-              playList: PlayList(
-                items: [
-                  PlayItem(material: materialsImage[0]),
-                  PlayItem(material: materialsImage[1], duration: 10000),
-                ],
-              ),
+              playList: playLists[0],
             ),
           ],
         ),
@@ -79,38 +124,17 @@ var channel1 = Channel(
           layoutConfigs: [
             LayoutConfig(
               position: Position(x: 0.02, y: 0.02, w: 0.32, h: 0.75),
-              playList: PlayList(items: [PlayItem(material: materialsLink[1])]),
+              playList: playLists[1],
               backgroundColor: Colors.white.toARGB32(),
             ),
             LayoutConfig(
               position: Position(x: 0.35, y: 0.02, w: 0.32, h: 0.15),
-              playList: PlayList(
-                items: [
-                  PlayItem(
-                    material: MaterialInfo(
-                      id: 1002,
-                      type: MaterialTypes.text,
-                      version: 1,
-                      content: "标题1",
-                    ),
-                  ),
-                  PlayItem(
-                    material: MaterialInfo(
-                      id: 1012,
-                      version: 1,
-                      type: MaterialTypes.text,
-                      content: "这是另一个标题",
-                    ),
-                  ),
-                ],
-              ),
+              playList: playLists[2],
               backgroundColor: Colors.lightBlueAccent.toARGB32(),
             ),
             LayoutConfig(
               position: Position(x: 0.35, y: 0.50, w: 0.35, h: 0.25),
-              playList: PlayList(
-                items: [PlayItem(material: materialsVideo[0])],
-              ),
+              playList: playLists[4],
             ),
           ],
         ),
@@ -136,26 +160,10 @@ var channel1 = Channel(
           id: 201,
           layerName: "layerName",
           layoutConfigs: [
-            LayoutConfig(
-              position: Position.fullscreen,
-              playList: PlayList(
-                items: [PlayItem(material: materialsImage[1])],
-              ),
-            ),
+            LayoutConfig(position: Position.fullscreen, playList: playLists[3]),
             LayoutConfig(
               position: Position(x: 0.1, y: 0.1, w: 0.5, h: 0.1),
-              playList: PlayList(
-                items: [
-                  PlayItem(
-                    material: MaterialInfo(
-                      id: 33,
-                      type: MaterialTypes.text,
-                      version: 1,
-                      content: "现在是节目2",
-                    ),
-                  ),
-                ],
-              ),
+              playList: playLists[5],
             ),
           ],
         ),

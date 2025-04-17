@@ -8,7 +8,10 @@ part of 'layout_config.dart';
 
 LayoutConfig _$LayoutConfigFromJson(Map<String, dynamic> json) => LayoutConfig(
   position: Position.fromJson(json['position'] as Map<String, dynamic>),
-  playList: PlayList.fromJson(json['play_list'] as Map<String, dynamic>),
+  playList:
+      json['play_list'] == null
+          ? null
+          : PlayList.fromJson(json['play_list'] as Map<String, dynamic>),
   backgroundColor: (json['background_color'] as num?)?.toInt(),
 );
 

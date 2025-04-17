@@ -9,11 +9,13 @@ class PlayList extends BaseOwnerModel {
   /// ID
   final int? id;
 
+  String name;
+
   /// 列表
   final List<PlayItem>? items;
 
   @JsonKey(name: 'play_mode')
-  final int playMode;
+  final PlayMode playMode;
 
   /// 默认的切换间隔时间，单位毫秒。
   @JsonKey(name: 'default_delay')
@@ -21,8 +23,9 @@ class PlayList extends BaseOwnerModel {
 
   PlayList({
     this.id,
+    this.name = 'playlist',
     this.items,
-    this.playMode = 1,
+    this.playMode = PlayMode.order,
     this.defaultDelay = 3000,
     super.ownerId,
     super.createdAt,

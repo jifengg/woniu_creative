@@ -52,3 +52,20 @@ enum TimeConfigType {
     return nameMap[this] ?? name;
   }
 }
+
+/// 播放列表的播放模式
+enum PlayMode {
+  /// 顺序播放
+  @JsonValue(1)
+  order,
+
+  /// 随机播放
+  @JsonValue(2)
+  random;
+
+  static final nameMap = {order: '顺序', random: '随机'};
+
+  String getName() {
+    return nameMap[this] ?? name;
+  }
+}
