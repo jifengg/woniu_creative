@@ -14,6 +14,8 @@ MaterialInfo _$MaterialInfoFromJson(Map<String, dynamic> json) => MaterialInfo(
   duration: (json['duration'] as num?)?.toInt(),
   content: json['content'] as String?,
   fileExtension: json['file_extension'] as String?,
+  name: json['name'] as String?,
+  filename: json['filename'] as String?,
   ownerId: (json['owner_id'] as num?)?.toInt(),
   createdAt: const NullableDateTimeConverter().fromJson(
     json['created_at'] as String?,
@@ -36,6 +38,8 @@ Map<String, dynamic> _$MaterialInfoToJson(
   'file_extension': instance.fileExtension,
   'duration': instance.duration,
   'content': instance.content,
+  'name': instance.name,
+  'filename': instance.filename,
 };
 
 const _$MaterialTypesEnumMap = {

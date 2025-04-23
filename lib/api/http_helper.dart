@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -94,5 +95,22 @@ Future<T> delete<T extends BaseResponse>(
   Map<String, dynamic>? queryParameters,
 }) async {
   var res = await dio.delete(path, queryParameters: queryParameters);
+  return convert2BaseResponse<T>(res);
+}
+
+Future<T> upload<T extends BaseResponse>(
+  String path, {
+  required File file,
+  Map<String, dynamic>? queryParameters,
+  Object? data,
+  ProgressCallback? onSendProgress,
+}) async {
+  Stream<List<int>> stream = file.openRead();
+  var res = await dio.put(
+    path,
+    queryParameters: queryParameters,
+    data: stream,
+    onSendProgress: onSendProgress,
+  );
   return convert2BaseResponse<T>(res);
 }

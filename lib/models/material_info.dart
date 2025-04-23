@@ -28,6 +28,10 @@ class MaterialInfo extends BaseOwnerModel {
   /// 文字内容
   final String? content;
 
+  final String? name;
+
+  final String? filename;
+
   MaterialInfo({
     this.id,
     required this.type,
@@ -36,6 +40,8 @@ class MaterialInfo extends BaseOwnerModel {
     this.duration,
     this.content,
     this.fileExtension,
+    this.name,
+    this.filename,
     super.ownerId,
     super.createdAt,
     super.updatedAt,

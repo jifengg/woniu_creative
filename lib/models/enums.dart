@@ -17,6 +17,18 @@ enum MaterialTypes {
 
   /// 是否是文件素材
   bool get isFileType => fileTypes.contains(this);
+
+  static final nameMap = {
+    text: '文本',
+    image: '图片',
+    video: '视频',
+    audio: '音频',
+    link: '链接',
+  };
+
+  String getName() {
+    return nameMap[this] ?? name;
+  }
 }
 
 enum TimeConfigType {
