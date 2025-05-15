@@ -102,7 +102,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                   value: _agreed,
                   onChanged: (value) => setState(() => _agreed = value!),
                 ),
-                GestureDetector(
+                InkWell(
                   onTap: () => _showAgreementDialog(),
                   child: Text.rich(
                     TextSpan(

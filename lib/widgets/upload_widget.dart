@@ -51,6 +51,7 @@ class _UploadWidgetState extends State<UploadWidget> {
   @override
   Widget build(BuildContext context) {
     return Card.outlined(
+      clipBehavior: Clip.antiAlias,
       child: SizedBox(
         width: widget.width,
         height: widget.width,
@@ -73,13 +74,16 @@ class _UploadWidgetState extends State<UploadWidget> {
         Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Padding(
+            Container(
+              color: Theme.of(context).colorScheme.primaryContainer.withAlpha(128),
+              width: double.maxFinite,
               padding: const EdgeInsets.all(8.0),
               child: Tooltip(
                 message: fileName ?? '',
                 child: Text(
                   fileName ?? '',
                   maxLines: 1,
+                  textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
